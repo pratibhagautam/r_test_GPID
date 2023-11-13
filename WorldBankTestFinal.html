@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>WorlddBankTest</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="WorldBankTestFinal_files/libs/clipboard/clipboard.min.js"></script>
+<script src="WorldBankTestFinal_files/libs/quarto-html/quarto.js"></script>
+<script src="WorldBankTestFinal_files/libs/quarto-html/popper.min.js"></script>
+<script src="WorldBankTestFinal_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="WorldBankTestFinal_files/libs/quarto-html/anchor.min.js"></script>
+<link href="WorldBankTestFinal_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="WorldBankTestFinal_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="WorldBankTestFinal_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="WorldBankTestFinal_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="WorldBankTestFinal_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">WorlddBankTest</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading all packages necessary </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.3     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Hmisc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'Hmisc'
+
+The following objects are masked from 'package:dplyr':
+
+    src, summarize
+
+The following objects are masked from 'package:base':
+
+    format.pval, units</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># I am reading all data locally stored in data folder</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>wdi <span class="ot">&lt;-</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_rds</span>( <span class="st">"data/wdi_in1.Rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="summary-statistics-of-gdp-per-capita-by-region" class="level3">
+<h3 class="anchored" data-anchor-id="summary-statistics-of-gdp-per-capita-by-region"><strong>1. Summary statistics of GDP per capita by region</strong></h3>
+<p>We need to look at region at each year (‘date’), then get the weighted mean gdp by multiplying each gdp/per capita by the population, sum over all the countries in our region&amp;year, and divide by the total population. The standard deviation also has to be adjusted to account for the population, the computation is slightly more complex, so we use the wtd.stats subpackage from https://rdrr.io/cran/Hmisc/man/wtd.stats.html</p>
+<p>We make sure to add na.rm = TRUE to ignore NAs</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>summary_wdi <span class="ot">&lt;-</span> wdi <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region, date) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> <span class="fu">n</span>(),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean =</span> <span class="fu">wtd.mean</span>(gdp, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>) ,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD =</span>  <span class="fu">sqrt</span>(<span class="fu">wtd.var</span>(gdp, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Min =</span> <span class="fu">min</span>(gdp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max =</span> <span class="fu">max</span>(gdp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  )  <span class="sc">%&gt;%</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">year =</span> date) <span class="co"># rename date to year</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'region'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># change year to character from double</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>summary_wdi <span class="ot">&lt;-</span> summary_wdi <span class="sc">%&gt;%</span>   <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.character</span>(year))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>summary_wdi <span class="ot">&lt;-</span> summary_wdi <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>()</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(summary_wdi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 218 × 7
+   region              year      N  Mean    SD   Min    Max
+   &lt;chr&gt;               &lt;chr&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+ 1 East Asia &amp; Pacific 1990     22 4913. 8497.  582. 32846.
+ 2 East Asia &amp; Pacific 1991     22 5105. 8691.  579. 33870.
+ 3 East Asia &amp; Pacific 1992     22 5291. 8667.  597. 34049.
+ 4 East Asia &amp; Pacific 1993     22 5483. 8576.  635. 33783.
+ 5 East Asia &amp; Pacific 1994     22 5740. 8619.  669. 34054.
+ 6 East Asia &amp; Pacific 1995     22 6037. 8796.  709. 34868.
+ 7 East Asia &amp; Pacific 1996     22 6340. 9011.  746. 35879.
+ 8 East Asia &amp; Pacific 1997     22 6538. 9045.  782. 36145.
+ 9 East Asia &amp; Pacific 1998     22 6449. 8823.  817. 36099.
+10 East Asia &amp; Pacific 1999     22 6635. 8836.  875. 37476.
+# ℹ 208 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>waldo<span class="sc">::</span><span class="fu">compare</span>(summary_wdi,readr<span class="sc">::</span><span class="fu">read_rds</span>( <span class="st">"data/wdi_summ_out.Rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>`class(old)`: "tbl_df"     "tbl" "data.frame"
+`class(new)`: "data.table"       "data.frame"
+
+`attr(old$region, 'label')` is a character vector ('region')
+`attr(new$region, 'label')` is absent
+
+`old$N` is an integer vector (22, 22, 22, 22, 22, ...)
+`new$N` is a double vector (22, 22, 22, 22, 22, ...)
+
+     old$Mean           | new$Mean                           
+ [1] 4913.1033824116084 - 4913.1033824116075 [1]             
+ [2] 5105.0104171493367 - 5105.0104171493358 [2]             
+ [3] 5290.8095613207988 - 5290.8095613208006 [3]             
+ [4] 5482.7896793386972 - 5482.7896793386963 [4]             
+ [5] 5740.0878796092366 - 5740.0878796092338 [5]             
+ [6] 6037.2194463295637 - 6037.2194463295655 [6]             
+ [7] 6339.7772987429989 - 6339.7772987430008 [7]             
+ [8] 6537.7012496267344 - 6537.7012496267316 [8]             
+ [9] 6449.2714744924242 | 6449.2714744924242 [9]             
+[10] 6634.8428345702760 - 6634.8428345702769 [10]            
+ ... ...                  ...                and 117 more ...
+
+      old$Mean            | new$Mean                 
+[128] 39972.3937454740808 | 39972.3937454740808 [128]
+[129] 40540.1730477565070 | 40540.1730477565070 [129]
+[130] 41680.3363897968156 | 41680.3363897968156 [130]
+[131] 42299.3843855870582 - 42299.3843855870655 [131]
+[132] 43317.4916249835878 | 43317.4916249835878 [132]
+[133] 44705.8925252675472 | 44705.8925252675472 [133]
+[134] 46162.1959999669634 | 46162.1959999669634 [134]
+
+      old$Mean            | new$Mean                           
+[139] 50641.6393301463177 | 50641.6393301463177 [139]          
+[140] 52075.8345827743615 | 52075.8345827743615 [140]          
+[141] 53382.2451330527474 | 53382.2451330527474 [141]          
+[142] 54332.3212907509514 - 54332.3212907509442 [142]          
+[143] 54901.6846339972617 - 54901.6846339972544 [143]          
+[144] 54483.4046545501769 | 54483.4046545501769 [144]          
+[145] 52575.3572801488772 - 52575.3572801488699 [145]          
+[146] 53554.8870340037756 - 53554.8870340037683 [146]          
+[147] 54048.0111263539293 | 54048.0111263539293 [147]          
+[148] 54833.9476994414872 | 54833.9476994414872 [148]          
+  ... ...                   ...                 and 70 more ...
+
+     old$SD              | new$SD                              
+ [2] 8690.75813054334685 | 8690.75813054334685 [2]             
+ [3] 8666.69255281417645 | 8666.69255281417645 [3]             
+ [4] 8576.39688546040816 | 8576.39688546040816 [4]             
+ [5] 8619.32053242204893 - 8619.32053242204711 [5]             
+ [6] 8796.34791297051925 | 8796.34791297051925 [6]             
+ [7] 9011.02696463313441 | 9011.02696463313441 [7]             
+ [8] 9045.03610218434005 | 9045.03610218434005 [8]             
+ [9] 8823.33658869879400 - 8823.33658869879218 [9]             
+[10] 8835.69325873518028 - 8835.69325873518210 [10]            
+[11] 9054.57899734289458 - 9054.57899734289276 [11]            
+ ... ...                   ...                 and 165 more ...
+
+      old$SD              | new$SD                             
+[178] 739.46487489391870  | 739.46487489391870  [178]          
+[179] 801.39110402285974  | 801.39110402285974  [179]          
+[180] 829.71373671690719  | 829.71373671690719  [180]          
+[181] 886.81539259824854  - 886.81539259824865  [181]          
+[182] 927.28629383745852  - 927.28629383745840  [182]          
+[183] 986.82770227539731  | 986.82770227539731  [183]          
+[184] 1055.28865595450611 | 1055.28865595450611 [184]          
+[185] 1065.12477489584717 | 1065.12477489584717 [185]          
+[186] 1046.29253280675334 | 1046.29253280675334 [186]          
+[187] 914.12094427007935  - 914.12094427007946  [187]          
+  ... ...                   ...                 and 31 more ...</code></pre>
+</div>
+</div>
+<p>It seems like there is a very minor difference in values for some of the estimates, this could be to me using a different package or way to compute the weighted estimates (numerical precision issues), but it should not really affect us.</p>
+</section>
+<section id="aggregate-stats" class="level3">
+<h3 class="anchored" data-anchor-id="aggregate-stats"><strong>2. Aggregate stats</strong></h3>
+<p>We want to get the mean, standard deviation, minimum, maximum, and median for <code>lifeex</code>, <code>gdp</code>, and <code>pov_intl</code> variables by <code>region</code> and <code>date.</code> We also want it to be in a long format. To do this, for each type of estimate (e.g.&nbsp;mean), I will create a dataframe that does the calculation, then I will combine the dfs for each estimate into one dataframe which will be the final output.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>agg_wdi_mean <span class="ot">&lt;-</span> wdi <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region, date) <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> <span class="st">'mean'</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lifeex =</span> <span class="fu">wtd.mean</span>(lifeex, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>) ,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">gdp =</span> <span class="fu">wtd.mean</span>(gdp, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pov_intl  =</span><span class="fu">wtd.mean</span>(pov_intl, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop =</span> <span class="fu">sum</span>(pop)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'region'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>agg_wdi_sd <span class="ot">&lt;-</span> wdi <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region, date) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> <span class="st">'sd'</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lifeex =</span> <span class="fu">sqrt</span>(<span class="fu">wtd.var</span>(lifeex, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) ,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">gdp =</span> <span class="fu">sqrt</span>(<span class="fu">wtd.var</span>(gdp, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pov_intl  =</span> <span class="fu">sqrt</span>(<span class="fu">wtd.var</span>(pov_intl, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop =</span> <span class="fu">sum</span>(pop)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'region'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>agg_wdi_min<span class="ot">&lt;-</span> wdi <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region, date) <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> <span class="st">'min'</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lifeex =</span> <span class="fu">min</span>(lifeex, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) ,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">gdp =</span> <span class="fu">min</span>(gdp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pov_intl  =</span> <span class="fu">min</span>(pov_intl, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop =</span> <span class="fu">sum</span>(pop)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'region'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>agg_wdi_max <span class="ot">&lt;-</span> wdi <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region, date) <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> <span class="st">'max'</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lifeex =</span> <span class="fu">max</span>(lifeex, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) ,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">gdp =</span> <span class="fu">max</span>(gdp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pov_intl  =</span> <span class="fu">max</span>(pov_intl, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop =</span> <span class="fu">sum</span>(pop)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'region'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For weighted median, we also use the wtd subpackage</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the median is essentially the 50% quantile which we leverage here</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>agg_wdi_median <span class="ot">&lt;-</span> wdi <span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region, date) <span class="sc">%&gt;%</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> <span class="st">'median'</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">lifeex =</span> <span class="fu">wtd.quantile</span>(lifeex, <span class="at">weights =</span> pop, <span class="at">probs =</span><span class="fl">0.5</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) ,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">gdp =</span> <span class="fu">wtd.quantile</span>(gdp, <span class="at">weights =</span> pop, <span class="at">probs =</span><span class="fl">0.5</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">pov_intl  =</span> <span class="fu">wtd.quantile</span>(pov_intl, <span class="at">weights =</span> pop, <span class="at">probs =</span><span class="fl">0.5</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop =</span> <span class="fu">sum</span>(pop)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'region'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>agg_wdi <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(agg_wdi_mean, agg_wdi_sd, agg_wdi_min, agg_wdi_max, agg_wdi_median)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># reorder columns to match output</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>agg_wdi <span class="ot">&lt;-</span> agg_wdi <span class="sc">%&gt;%</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(estimate, <span class="fu">everything</span>())</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>agg_wdi <span class="ot">&lt;-</span> agg_wdi <span class="sc">%&gt;%</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(estimate, region, date, pop, <span class="fu">everything</span>())</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(agg_wdi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,090 × 7
+# Groups:   region [7]
+   estimate region               date        pop lifeex   gdp pov_intl
+   &lt;chr&gt;    &lt;chr&gt;               &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+ 1 mean     East Asia &amp; Pacific  1990 1754166013   68.2 4913.    0.590
+ 2 mean     East Asia &amp; Pacific  1991 1779284317   68.4 5105.    0.573
+ 3 mean     East Asia &amp; Pacific  1992 1802946756   68.9 5291.    0.550
+ 4 mean     East Asia &amp; Pacific  1993 1825777375   69.3 5483.    0.523
+ 5 mean     East Asia &amp; Pacific  1994 1848480100   69.6 5740.    0.483
+ 6 mean     East Asia &amp; Pacific  1995 1870755748   70.0 6037.    0.450
+ 7 mean     East Asia &amp; Pacific  1996 1892721009   70.3 6340.    0.410
+ 8 mean     East Asia &amp; Pacific  1997 1914534267   70.7 6538.    0.408
+ 9 mean     East Asia &amp; Pacific  1998 1935514675   71.1 6449.    0.417
+10 mean     East Asia &amp; Pacific  1999 1955084080   71.3 6635.    0.386
+# ℹ 1,080 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>waldo<span class="sc">::</span><span class="fu">compare</span>(agg_wdi,readr<span class="sc">::</span><span class="fu">read_rds</span>( <span class="st">"data/wdi_agg_out.Rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>`class(old)`: "grouped_df" "tbl_df" "tbl" "data.frame"
+`class(new)`: "data.table"                "data.frame"
+
+`attr(old, 'groups')` is an S3 object of class &lt;tbl_df/tbl/data.frame&gt;, a list
+`attr(new, 'groups')` is absent
+
+`attr(old, 'sorted')` is absent
+`attr(new, 'sorted')` is a character vector ('iso3c', 'date')
+
+`attr(old$region, 'label')` is absent
+`attr(new$region, 'label')` is a character vector ('region')
+
+`attr(old$date, 'label')` is absent
+`attr(new$date, 'label')` is a character vector ('year')
+
+`attr(old$pop, 'label')` is absent
+`attr(new$pop, 'label')` is a character vector ('Population, total')
+
+`names(old$lifeex)` is a character vector ('', '', '', '', '', ...)
+`names(new$lifeex)` is absent
+
+`attr(old$lifeex, 'label')` is absent
+`attr(new$lifeex, 'label')` is a character vector ('Life expectancy at birth, total (years)')
+
+      old$lifeex          | new$lifeex                          
+[216] 60.5254757695504395 | 60.5254757695504395 [216]           
+[217] 60.9071467186978381 | 60.9071467186978381 [217]           
+[218] 61.2849752124565086 | 61.2849752124565086 [218]           
+[219] 3.9943042072794732  - 3.9943042072794737  [219]           
+[220] 3.9612153183367829  | 3.9612153183367829  [220]           
+[221] 3.8478340581161903  | 3.8478340581161903  [221]           
+[222] 3.8030630509447869  - 3.8030630509447874  [222]           
+[223] 3.8085749048379296  - 3.8085749048379292  [223]           
+[224] 3.6976360408588955  - 3.6976360408588969  [224]           
+[225] 3.7601225105316898  | 3.7601225105316898  [225]           
+  ... ...                   ...                 and 214 more ...
+
+`names(old$gdp)` is a character vector ('', '', '', '', '', ...)
+`names(new$gdp)` is absent
+
+And 10 more differences ...</code></pre>
+</div>
+</div>
+</section>
+<section id="find-outliers" class="level3">
+<h3 class="anchored" data-anchor-id="find-outliers"><strong>3. Find outliers</strong></h3>
+<p>To find the outliers of <code>lifeex</code>, <code>gpd</code>, and <code>gini</code> by year above and below 2.5 standard deviations from the mean, I first compute the weighted mean for each of the averages and the weighted sd by year. I store these variables in the following two dataframes agg_wdi_sd and agg_wdi_mean:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>agg_wdi_sd <span class="ot">&lt;-</span> wdi <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(date) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> <span class="st">'sd'</span>,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lifeex =</span> <span class="fu">sqrt</span>(<span class="fu">wtd.var</span>(lifeex, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) ,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">gdp =</span> <span class="fu">sqrt</span>(<span class="fu">wtd.var</span>(gdp, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">gini  =</span> <span class="fu">sqrt</span>(<span class="fu">wtd.var</span>(gini, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>agg_wdi_mean <span class="ot">&lt;-</span> wdi <span class="sc">%&gt;%</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>( date) <span class="sc">%&gt;%</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> <span class="st">'mean'</span>,</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">lifeex =</span> <span class="fu">wtd.mean</span>(lifeex, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>) ,</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">gdp =</span> <span class="fu">wtd.mean</span>(gdp, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">gini  =</span><span class="fu">wtd.mean</span>(gini, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>An outlier in terms of the three variables, will have a value that is either above or below the mean +/- 2.5 sd. This is the same as saying |value-mean| &gt; 2.5 sd (to catch both above or below). We leverage this equation to find the outliers. We use a search over wdi to find the outliers.</p>
+<p>The outliers df below will only keep the countries at the year they were an outlier in any of the three variables (with a binary indicator if an outlier). If the country does not have a value (as happens with gini), we keep it as NA.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>outliers <span class="ot">&lt;-</span> wdi <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span> <span class="co"># rowwise itterates over each element of wdi row by row</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lifeex_outlier =</span> <span class="fu">abs</span>(lifeex <span class="sc">-</span> agg_wdi_mean[agg_wdi_mean<span class="sc">$</span>date <span class="sc">==</span> date, <span class="st">'lifeex'</span>]) <span class="sc">&gt;</span> <span class="fl">2.5</span> <span class="sc">*</span> agg_wdi_sd[agg_wdi_sd<span class="sc">$</span>date <span class="sc">==</span> date, <span class="st">'lifeex'</span>],</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gdp_outlier =</span> <span class="fu">abs</span>(gdp <span class="sc">-</span> agg_wdi_mean[agg_wdi_mean<span class="sc">$</span>date <span class="sc">==</span> date, <span class="st">'gdp'</span>]) <span class="sc">&gt;</span> <span class="fl">2.5</span> <span class="sc">*</span> agg_wdi_sd[agg_wdi_sd<span class="sc">$</span>date <span class="sc">==</span> date, <span class="st">'gdp'</span>],</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">gini_outlier =</span> <span class="fu">abs</span>(gini <span class="sc">-</span> agg_wdi_mean[agg_wdi_mean<span class="sc">$</span>date <span class="sc">==</span> date, <span class="st">'gini'</span>]) <span class="sc">&gt;</span> <span class="fl">2.5</span> <span class="sc">*</span> agg_wdi_sd[agg_wdi_sd<span class="sc">$</span>date <span class="sc">==</span> date, <span class="st">'gini'</span>]</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(lifeex_outlier <span class="sc">|</span> gdp_outlier <span class="sc">|</span> gini_outlier) <span class="sc">%&gt;%</span> <span class="co"># only keep the outliers</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(region, iso3c, date, country, lifeex_outlier, gdp_outlier, gini_outlier, lifeex, gdp, gini) <span class="co"># which columns to keep</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using one column matrices in `filter()` was deprecated in dplyr 1.1.0.
+ℹ Please use one dimensional logical vectors instead.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(outliers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 529 × 10
+# Rowwise: 
+   region             iso3c  date country lifeex_outlier[,1] gdp_outlier[,1]
+   &lt;chr&gt;              &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;lgl&gt;              &lt;lgl&gt;          
+ 1 Sub-Saharan Africa AGO    1990 Angola  TRUE               FALSE          
+ 2 Sub-Saharan Africa AGO    1991 Angola  TRUE               FALSE          
+ 3 Sub-Saharan Africa AGO    1992 Angola  TRUE               FALSE          
+ 4 Sub-Saharan Africa AGO    1993 Angola  TRUE               FALSE          
+ 5 Sub-Saharan Africa AGO    1994 Angola  TRUE               FALSE          
+ 6 Sub-Saharan Africa AGO    1995 Angola  TRUE               FALSE          
+ 7 Sub-Saharan Africa AGO    1996 Angola  TRUE               FALSE          
+ 8 Sub-Saharan Africa AGO    1997 Angola  TRUE               FALSE          
+ 9 Sub-Saharan Africa AGO    1998 Angola  TRUE               FALSE          
+10 Sub-Saharan Africa AGO    1999 Angola  TRUE               FALSE          
+# ℹ 519 more rows
+# ℹ 4 more variables: gini_outlier &lt;lgl[,1]&gt;, lifeex &lt;dbl&gt;, gdp &lt;dbl&gt;,
+#   gini &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we first explictly compute the lower end and upper end of the CI by date</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>agg_wdi_ci <span class="ot">&lt;-</span> wdi <span class="sc">%&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(date) <span class="sc">%&gt;%</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_lifeex =</span> <span class="fu">wtd.mean</span>(lifeex, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower_ci =</span> mean_lifeex <span class="sc">-</span> <span class="fl">2.5</span> <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">wtd.var</span>(lifeex, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">upper_ci =</span> mean_lifeex <span class="sc">+</span> <span class="fl">2.5</span> <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">wtd.var</span>(lifeex, <span class="at">weights =</span> pop,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> wdi, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> lifeex, <span class="at">color =</span> region)) <span class="sc">+</span> <span class="co"># color by region</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> agg_wdi_ci, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> mean_lifeex, <span class="at">group =</span> <span class="dv">1</span>), <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="at">data =</span> agg_wdi_ci, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">ymin =</span> lower_ci, <span class="at">ymax =</span> upper_ci), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">fill =</span> <span class="st">"grey"</span>) <span class="sc">+</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(  <span class="at">x =</span> <span class="st">"date"</span>,</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"mean_lifeex"</span>) <span class="sc">+</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="co"># to get white background </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="WorldBankTestFinal_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>4. Poverty measures</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read the data locally </span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>l_svy <span class="ot">&lt;-</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    readr<span class="sc">::</span><span class="fu">read_rds</span>( <span class="st">"data/svy_sim_in1.Rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We want to estimate the Foster-Greer-Thorbecke indices (FGT) using global poverty lines of $2.15, $3.65, and $6.85 in 2017 PPP prices.</p>
+<p>Data: let us first understand the data we’re given l_svy, which represents a household survey formatted as a data list: l_svy$YEAR is a dataframe of responses with data about income, sampling weight and area of correspondent. The years are from 2001 to 2010 (years)</p>
+<p>To calculate our indices we need to compute the following variables:</p>
+<p>headcount (FGT0): This represents the proportion of the population whose income is below the poverty line (for each year and poverty line)</p>
+<p>povgap (FGT1): average gap for the population between income and the poverty line divided by the poverty line (poverty line - income), if the income is above the poverty line, we say the gap is 0. We need to weigh this povgap by the weights in the survey.</p>
+<p>povseverity (FGT2): essentially we square the gap from above and average over the population</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># given data for year and income line, we calculate our three indeces</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>calculate_fgt_indices <span class="ot">&lt;-</span> <span class="cf">function</span>(income, pov_line, weights) {</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># for each person we compute income gap</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  gaps <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(income <span class="sc">&lt;</span> pov_line, (pov_line <span class="sc">-</span> income) <span class="sc">/</span> pov_line, <span class="dv">0</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  squared_gaps <span class="ot">&lt;-</span> gaps<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  headcount <span class="ot">&lt;-</span> <span class="fu">sum</span>(weights[income <span class="sc">&lt;</span> pov_line]) <span class="sc">/</span> <span class="fu">sum</span>(weights)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  povgap <span class="ot">&lt;-</span> <span class="fu">sum</span>(gaps <span class="sc">*</span> weights) <span class="sc">/</span> <span class="fu">sum</span>(weights)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  povseverity <span class="ot">&lt;-</span> <span class="fu">sum</span>(squared_gaps <span class="sc">*</span> weights) <span class="sc">/</span> <span class="fu">sum</span>(weights)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">headcount =</span> headcount, <span class="at">povgap =</span> povgap, <span class="at">povseverity =</span> povseverity))</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="co"># from our input</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>poverty_lines <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">2.15</span>, <span class="fl">3.65</span>, <span class="fl">6.85</span>)</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>fgt_measures <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">"list"</span>, <span class="at">length =</span> <span class="fu">length</span>(l_svy) <span class="sc">*</span> <span class="fu">length</span>(poverty_lines))</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(l_svy)) { <span class="co"># for each year</span></span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(pov_line <span class="cf">in</span> poverty_lines) { <span class="co"># for each pov_line</span></span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># get indices</span></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>    fgt_values <span class="ot">&lt;-</span> <span class="fu">calculate_fgt_indices</span>(l_svy[[i]]<span class="sc">$</span>income, pov_line, l_svy[[i]]<span class="sc">$</span>weight)</span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># format them in table</span></span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>    fgt_measures[[idx]] <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">year =</span> <span class="dv">2000</span> <span class="sc">+</span> i,</span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">pov_line =</span> pov_line,</span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">headcount =</span> fgt_values<span class="sc">$</span>headcount,</span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">povgap =</span> fgt_values<span class="sc">$</span>povgap,</span>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">povseverity =</span> fgt_values<span class="sc">$</span>povseverity</span>
+<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb34-31"><a href="#cb34-31" aria-hidden="true" tabindex="-1"></a>    idx <span class="ot">&lt;-</span> idx <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb34-32"><a href="#cb34-32" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a>fgt_results <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(fgt_measures)</span>
+<span id="cb34-35"><a href="#cb34-35" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fgt_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 30 × 5
+    year pov_line headcount povgap povseverity
+   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;       &lt;dbl&gt;
+ 1  2001     2.15     0.542  0.423       0.380
+ 2  2001     3.65     0.661  0.498       0.435
+ 3  2001     6.85     0.814  0.614       0.529
+ 4  2002     2.15     0.498  0.361       0.313
+ 5  2002     3.65     0.633  0.447       0.376
+ 6  2002     6.85     0.799  0.577       0.482
+ 7  2003     2.15     0.450  0.295       0.241
+ 8  2003     3.65     0.606  0.393       0.312
+ 9  2003     6.85     0.795  0.542       0.433
+10  2004     2.15     0.389  0.216       0.158
+# ℹ 20 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>fgt_results<span class="sc">$</span>pov_line <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(fgt_results<span class="sc">$</span>pov_line)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(fgt_results, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> headcount, <span class="at">group =</span> pov_line, <span class="at">color =</span> pov_line)) <span class="sc">+</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"2.15"</span> <span class="ot">=</span> <span class="st">"red"</span>, <span class="st">"3.65"</span> <span class="ot">=</span> <span class="st">"green"</span>, <span class="st">"6.85"</span> <span class="ot">=</span> <span class="st">"blue"</span>)) <span class="sc">+</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(  <span class="at">x =</span> <span class="st">"year"</span>,</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"headcount"</span>,</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"headcount"</span>) <span class="sc">+</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="WorldBankTestFinal_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>5. Lorenz curve</strong></p>
+<p>The Lorentz curve is a representation of the distribution of income in the population: for the x% people in the population with the lowest income, how much of the total income do they posses.</p>
+<p>To do this we need to sort the population by income, the get the cumulative income and cumulative population. We then need to normalize by the total income and the total population for the curve.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The R function we want</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>lorenz_curve <span class="ot">&lt;-</span> <span class="cf">function</span>(data, year) {</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># sort  data by income</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> data[<span class="fu">order</span>(data<span class="sc">$</span>income), ]</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># get the cummulative welfare and population</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    data<span class="sc">$</span>cum_welfare <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(data<span class="sc">$</span>income <span class="sc">*</span> data<span class="sc">$</span>weight)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    data<span class="sc">$</span>cum_population <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(data<span class="sc">$</span>weight)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># normalize by the total population and welfare</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the total population is equivalently the max of the cum_population. </span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    data<span class="sc">$</span>cum_welfare <span class="ot">&lt;-</span> data<span class="sc">$</span>cum_welfare <span class="sc">/</span> <span class="fu">max</span>(data<span class="sc">$</span>cum_welfare)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    data<span class="sc">$</span>cum_population <span class="ot">&lt;-</span> data<span class="sc">$</span>cum_population <span class="sc">/</span> <span class="fu">max</span>(data<span class="sc">$</span>cum_population)</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    data<span class="sc">$</span>welfare <span class="ot">=</span> data<span class="sc">$</span>income</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># cut divides the data into intervals [0,100] </span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>    data<span class="sc">$</span>bin <span class="ot">&lt;-</span> <span class="fu">cut</span>(data<span class="sc">$</span>cum_population, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">101</span>), <span class="at">labels =</span> <span class="cn">FALSE</span>, <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>    aggregate_data <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(<span class="fu">cbind</span>(welfare,cum_welfare, cum_population) <span class="sc">~</span> bin, <span class="at">data =</span> data, max)</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># add year </span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>    aggregate_data<span class="sc">$</span>year <span class="ot">&lt;-</span> year</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(aggregate_data)</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="co"># do it for al the years</span></span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>lorenz_data <span class="ot">&lt;-</span> <span class="fu">lorenz_curve</span>(l_svy[[<span class="dv">1</span>]], <span class="dv">2001</span>)</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(l_svy)) { <span class="co"># for each year</span></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>  lorenz_data_i <span class="ot">&lt;-</span> <span class="fu">lorenz_curve</span>(l_svy[[i]], <span class="dv">2000</span> <span class="sc">+</span> i)</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>  lorenz_data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(lorenz_data, lorenz_data_i)</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(lorenz_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     bin      welfare  cum_welfare cum_population year
+1      1   0.00000000 0.000000e+00    0.009999296 2001
+2      2   0.00000000 0.000000e+00    0.019999937 2001
+3      3   0.00000000 0.000000e+00    0.029999951 2001
+4      4   0.00000000 0.000000e+00    0.039998888 2001
+5      5   0.00000000 0.000000e+00    0.049996301 2001
+6      6   0.00000000 0.000000e+00    0.059997390 2001
+7      7   0.00000000 0.000000e+00    0.069998241 2001
+8      8   0.00000000 0.000000e+00    0.079997058 2001
+9      9   0.00000000 0.000000e+00    0.089995428 2001
+10    10   0.00000000 0.000000e+00    0.099994903 2001
+11    11   0.00000000 0.000000e+00    0.109993870 2001
+12    12   0.00000000 0.000000e+00    0.119997650 2001
+13    13   0.00000000 0.000000e+00    0.129995242 2001
+14    14   0.00000000 0.000000e+00    0.139994180 2001
+15    15   0.00000000 0.000000e+00    0.149995568 2001
+16    16   0.00000000 0.000000e+00    0.159995492 2001
+17    17   0.00000000 0.000000e+00    0.169997180 2001
+18    18   0.00000000 0.000000e+00    0.179999405 2001
+19    19   0.00000000 0.000000e+00    0.189994665 2001
+20    20   0.00000000 0.000000e+00    0.199991450 2001
+21    21   0.00000000 0.000000e+00    0.209996964 2001
+22    22   0.00000000 0.000000e+00    0.219999638 2001
+23    23   0.00000000 0.000000e+00    0.229995407 2001
+24    24   0.00000000 0.000000e+00    0.239997812 2001
+25    25   0.00000000 0.000000e+00    0.249991099 2001
+26    26   0.00000000 0.000000e+00    0.259991501 2001
+27    27   0.00000000 0.000000e+00    0.269991933 2001
+28    28   0.00000000 0.000000e+00    0.279989615 2001
+29    29   0.03603395 2.473107e-05    0.289994770 2001
+30    30   0.10557176 1.989473e-04    0.299989761 2001
+31    31   0.17490342 5.419568e-04    0.309999999 2001
+32    32   0.25209802 1.066568e-03    0.319996036 2001
+33    33   0.32357414 1.775327e-03    0.329991296 2001
+34    34   0.39499314 2.658880e-03    0.339996362 2001
+35    35   0.46873428 3.721167e-03    0.349992310 2001
+36    36   0.53984886 4.958224e-03    0.359988258 2001
+37    37   0.61793184 6.380970e-03    0.369994071 2001
+38    38   0.69155756 7.985988e-03    0.379988942 2001
+39    39   0.77030664 9.781505e-03    0.389999269 2001
+40    40   0.85171922 1.177303e-02    0.399992228 2001
+41    41   0.93610001 1.396273e-02    0.409989581 2001
+42    42   1.01555490 1.636084e-02    0.419998173 2001
+43    43   1.09161408 1.894711e-02    0.429988920 2001
+44    44   1.17344418 2.172659e-02    0.439991205 2001
+45    45   1.25614216 2.470763e-02    0.449987034 2001
+46    46   1.34846029 2.790546e-02    0.459991800 2001
+47    47   1.43721021 3.132639e-02    0.469990080 2001
+48    48   1.53076591 3.497248e-02    0.479995863 2001
+49    49   1.62462088 3.884557e-02    0.489987835 2001
+50    50   1.72018302 4.295491e-02    0.499998281 2001
+51    51   1.82083901 4.729808e-02    0.509992465 2001
+52    52   1.92386293 5.188978e-02    0.519984766 2001
+53    53   2.02868186 5.675056e-02    0.529998620 2001
+54    54   2.12652362 6.184366e-02    0.539985989 2001
+55    55   2.23143897 6.719317e-02    0.549984149 2001
+56    56   2.34603998 7.281397e-02    0.559989752 2001
+57    57   2.46842114 7.872339e-02    0.569990543 2001
+58    58   2.58402106 8.492760e-02    0.579999764 2001
+59    59   2.70485479 9.140643e-02    0.589985099 2001
+60    60   2.82770333 9.821330e-02    0.599998954 2001
+61    61   2.95204349 1.053055e-01    0.609997054 2001
+62    62   3.08566544 1.127147e-01    0.619988608 2001
+63    63   3.21269796 1.204421e-01    0.629987276 2001
+64    64   3.34334526 1.284945e-01    0.639994733 2001
+65    65   3.47126072 1.368576e-01    0.649986794 2001
+66    66   3.62978714 1.455825e-01    0.659988422 2001
+67    67   3.78795973 1.546900e-01    0.669996567 2001
+68    68   3.94651640 1.641751e-01    0.679992006 2001
+69    69   4.09834121 1.740681e-01    0.689996683 2001
+70    70   4.25923810 1.843193e-01    0.699987759 2001
+71    71   4.43276928 1.949988e-01    0.709997577 2001
+72    72   4.62345017 2.061041e-01    0.719987606 2001
+73    73   4.81143491 2.177003e-01    0.729997036 2001
+74    74   5.01128199 2.297682e-01    0.739999650 2001
+75    75   5.22314405 2.423333e-01    0.749999066 2001
+76    76   5.43918402 2.554117e-01    0.759995163 2001
+77    77   5.65680777 2.690110e-01    0.769983967 2001
+78    78   5.91474747 2.832281e-01    0.779982605 2001
+79    79   6.17934133 2.980953e-01    0.789991287 2001
+80    80   6.42968902 3.135705e-01    0.799989806 2001
+81    81   6.72812956 3.297122e-01    0.809997383 2001
+82    82   7.04714583 3.466274e-01    0.819997187 2001
+83    83   7.38760971 3.643067e-01    0.829979145 2001
+84    84   7.76418023 3.829080e-01    0.839980742 2001
+85    85   8.14580621 4.024242e-01    0.849985061 2001
+86    86   8.53791142 4.229232e-01    0.859996703 2001
+87    87   9.02315422 4.444358e-01    0.869986134 2001
+88    88   9.53087253 4.671879e-01    0.879977299 2001
+89    89  10.11228119 4.913136e-01    0.889993186 2001
+90    90  10.73616398 5.169072e-01    0.899995979 2001
+91    91  11.45486088 5.441345e-01    0.909985919 2001
+92    92  12.33497620 5.733252e-01    0.919993405 2001
+93    93  13.29713617 6.047928e-01    0.929994645 2001
+94    94  14.43353356 6.388523e-01    0.939992416 2001
+95    95  15.95087119 6.762194e-01    0.949994761 2001
+96    96  18.01200675 7.177654e-01    0.959998123 2001
+97    97  20.43396931 7.648178e-01    0.969994489 2001
+98    98  24.40561939 8.194820e-01    0.979989989 2001
+99    99  32.33254391 8.878331e-01    0.989978134 2001
+100  100 249.21168591 1.000000e+00    1.000000000 2001
+101    1   0.00000000 0.000000e+00    0.009998609 2002
+102    2   0.00000000 0.000000e+00    0.019998596 2002
+103    3   0.00000000 0.000000e+00    0.029999240 2002
+104    4   0.00000000 0.000000e+00    0.039999705 2002
+105    5   0.00000000 0.000000e+00    0.049996280 2002
+106    6   0.00000000 0.000000e+00    0.059999917 2002
+107    7   0.00000000 0.000000e+00    0.069999335 2002
+108    8   0.00000000 0.000000e+00    0.079998393 2002
+109    9   0.00000000 0.000000e+00    0.089995925 2002
+110   10   0.00000000 0.000000e+00    0.099995553 2002
+111   11   0.00000000 0.000000e+00    0.109997005 2002
+112   12   0.00000000 0.000000e+00    0.119999116 2002
+113   13   0.00000000 0.000000e+00    0.129999372 2002
+114   14   0.00000000 0.000000e+00    0.139996725 2002
+115   15   0.00000000 0.000000e+00    0.149999285 2002
+116   16   0.00000000 0.000000e+00    0.159999271 2002
+117   17   0.00000000 0.000000e+00    0.169995456 2002
+118   18   0.00000000 0.000000e+00    0.179994574 2002
+119   19   0.00000000 0.000000e+00    0.189993753 2002
+120   20   0.00000000 0.000000e+00    0.199997959 2002
+121   21   0.01173107 2.354138e-06    0.209998963 2002
+122   22   0.07654999 1.041773e-04    0.219998560 2002
+123   23   0.14111680 3.597409e-04    0.229992141 2002
+124   24   0.20688683 7.647463e-04    0.239998083 2002
+125   25   0.27213504 1.319551e-03    0.249993041 2002
+126   26   0.33512620 2.021870e-03    0.259991890 2002
+127   27   0.40328134 2.878568e-03    0.269994899 2002
+128   28   0.47145781 3.891844e-03    0.279991594 2002
+129   29   0.53894965 5.065213e-03    0.289991430 2002
+130   30   0.60493992 6.393596e-03    0.299990159 2002
+131   31   0.67537162 7.879236e-03    0.309998945 2002
+132   32   0.74575578 9.526638e-03    0.319993214 2002
+133   33   0.81813904 1.133906e-02    0.329988532 2002
+134   34   0.89046103 1.332005e-02    0.339990912 2002
+135   35   0.96674179 1.547164e-02    0.349988504 2002
+136   36   1.04110321 1.779985e-02    0.359994267 2002
+137   37   1.11008053 2.029464e-02    0.369990482 2002
+138   38   1.18643555 2.296356e-02    0.379999088 2002
+139   39   1.25939727 2.580070e-02    0.389991412 2002
+140   40   1.33661405 2.880927e-02    0.399993463 2002
+141   41   1.41131896 3.200057e-02    0.409998777 2002
+142   42   1.49058078 3.536222e-02    0.419994723 2002
+143   43   1.56912690 3.890950e-02    0.429993692 2002
+144   44   1.65030150 4.263872e-02    0.439988919 2002
+145   45   1.73202806 4.656403e-02    0.449993484 2002
+146   46   1.81778519 5.068060e-02    0.459995506 2002
+147   47   1.90473900 5.499564e-02    0.469986753 2002
+148   48   1.99022618 5.951865e-02    0.479996975 2002
+149   49   2.07964717 6.424093e-02    0.489998906 2002
+150   50   2.16952279 6.916310e-02    0.499990213 2002
+151   51   2.26288767 7.430080e-02    0.509994270 2002
+152   52   2.36201138 7.966266e-02    0.519989348 2002
+153   53   2.46235294 8.526305e-02    0.529998402 2002
+154   54   2.56158983 9.108852e-02    0.539993241 2002
+155   55   2.66694075 9.714968e-02    0.549994993 2002
+156   56   2.76482057 1.034410e-01    0.559991238 2002
+157   57   2.87724036 1.099805e-01    0.569987333 2002
+158   58   2.98101750 1.167787e-01    0.579985674 2002
+159   59   3.09678518 1.238270e-01    0.589988982 2002
+160   60   3.22510361 1.311620e-01    0.599998575 2002
+161   61   3.34809446 1.387777e-01    0.609992845 2002
+162   62   3.47501529 1.466886e-01    0.619985798 2002
+163   63   3.61183131 1.549071e-01    0.629992877 2002
+164   64   3.74833810 1.634448e-01    0.639994001 2002
+165   65   3.87548749 1.722728e-01    0.649982016 2002
+166   66   4.01878194 1.814364e-01    0.659992088 2002
+167   67   4.17089923 1.909332e-01    0.669993750 2002
+168   68   4.32468443 2.007872e-01    0.679998735 2002
+169   69   4.48057361 2.110006e-01    0.689992795 2002
+170   70   4.66161165 2.215957e-01    0.699981887 2002
+171   71   4.85459859 2.326349e-01    0.709983848 2002
+172   72   5.04939785 2.441219e-01    0.719985301 2002
+173   73   5.23720134 2.560667e-01    0.729998696 2002
+174   74   5.44643637 2.684255e-01    0.739983717 2002
+175   75   5.64843705 2.812889e-01    0.749984362 2002
+176   76   5.87079178 2.946647e-01    0.759993297 2002
+177   77   6.08609162 3.085227e-01    0.769990380 2002
+178   78   6.34049027 3.229149e-01    0.779980969 2002
+179   79   6.60655093 3.379530e-01    0.789999451 2002
+180   80   6.88411534 3.535827e-01    0.799983425 2002
+181   81   7.16629388 3.698865e-01    0.809992360 2002
+182   82   7.48893029 3.868638e-01    0.819985193 2002
+183   83   7.81533316 4.045961e-01    0.829984461 2002
+184   84   8.16588489 4.231169e-01    0.839980467 2002
+185   85   8.52705531 4.424962e-01    0.849984913 2002
+186   86   8.91640287 4.627557e-01    0.859997739 2002
+187   87   9.32727084 4.838946e-01    0.869987220 2002
+188   88   9.79327365 5.060670e-01    0.879989900 2002
+189   89  10.35164760 5.293980e-01    0.889982823 2002
+190   90  10.93798190 5.540489e-01    0.899978978 2002
+191   91  11.58252845 5.801634e-01    0.909982765 2002
+192   92  12.38984628 6.079843e-01    0.919995591 2002
+193   93  13.23948633 6.376041e-01    0.929979266 2002
+194   94  14.28798850 6.695343e-01    0.939983083 2002
+195   95  15.64681185 7.041214e-01    0.949988576 2002
+196   96  17.51878271 7.424440e-01    0.959973717 2002
+197   97  19.78371288 7.855411e-01    0.969975350 2002
+198   98  23.50463886 8.355801e-01    0.979994221 2002
+199   99  30.24206275 8.970839e-01    0.989973227 2002
+200  100 132.06588914 1.000000e+00    1.000000000 2002
+201    1   0.00000000 0.000000e+00    0.009999871 2003
+202    2   0.00000000 0.000000e+00    0.019998843 2003
+203    3   0.00000000 0.000000e+00    0.029999193 2003
+204    4   0.00000000 0.000000e+00    0.039997507 2003
+205    5   0.00000000 0.000000e+00    0.049997557 2003
+206    6   0.00000000 0.000000e+00    0.059996949 2003
+207    7   0.00000000 0.000000e+00    0.069995263 2003
+208    8   0.00000000 0.000000e+00    0.079996301 2003
+209    9   0.00000000 0.000000e+00    0.089997429 2003
+210   10   0.00000000 0.000000e+00    0.099999276 2003
+211   11   0.00000000 0.000000e+00    0.109993818 2003
+212   12   0.00000000 0.000000e+00    0.119996263 2003
+213   13   0.01705767 4.855044e-06    0.129993769 2003
+214   14   0.08049915 1.129105e-04    0.139995825 2003
+215   15   0.14306157 3.611152e-04    0.149997072 2003
+216   16   0.20791510 7.482713e-04    0.159994638 2003
+217   17   0.26975445 1.278874e-03    0.169996455 2003
+218   18   0.33460747 1.946041e-03    0.179998091 2003
+219   19   0.39407336 2.751888e-03    0.189994849 2003
+220   20   0.45420100 3.687412e-03    0.199994779 2003
+221   21   0.51514654 4.760021e-03    0.209995518 2003
+222   22   0.57786276 5.965669e-03    0.219994311 2003
+223   23   0.64058402 7.309084e-03    0.229993853 2003
+224   24   0.69838437 8.788617e-03    0.239997555 2003
+225   25   0.76010259 1.040152e-02    0.249999222 2003
+226   26   0.82554807 1.215548e-02    0.259996249 2003
+227   27   0.89034454 1.405069e-02    0.269995760 2003
+228   28   0.95349207 1.608738e-02    0.279996229 2003
+229   29   1.01413503 1.826371e-02    0.289994663 2003
+230   30   1.07800146 2.057562e-02    0.299995103 2003
+231   31   1.14395653 2.303185e-02    0.309990992 2003
+232   32   1.21300399 2.563649e-02    0.319991132 2003
+233   33   1.27585374 2.839145e-02    0.329997768 2003
+234   34   1.34852666 3.129149e-02    0.339997280 2003
+235   35   1.41551538 3.434448e-02    0.349989427 2003
+236   36   1.48855229 3.755374e-02    0.359988939 2003
+237   37   1.56038956 4.092342e-02    0.369993599 2003
+238   38   1.63049667 4.445053e-02    0.379994008 2003
+239   39   1.70550782 4.813623e-02    0.389990915 2003
+240   40   1.77625170 5.198648e-02    0.399990696 2003
+241   41   1.85149555 5.600022e-02    0.409998440 2003
+242   42   1.92268223 6.016529e-02    0.419987863 2003
+243   43   1.99901303 6.450244e-02    0.429991536 2003
+244   44   2.07915715 6.901309e-02    0.439994550 2003
+245   45   2.15393565 7.369305e-02    0.449994420 2003
+246   46   2.23571040 7.854963e-02    0.459994530 2003
+247   47   2.32181673 8.358765e-02    0.469993443 2003
+248   48   2.40486941 8.881614e-02    0.479999690 2003
+249   49   2.49392281 9.423389e-02    0.489999231 2003
+250   50   2.57818340 9.984026e-02    0.499999312 2003
+251   51   2.66530420 1.056354e-01    0.509994033 2003
+252   52   2.75258997 1.116245e-01    0.519998843 2003
+253   53   2.84394668 1.178112e-01    0.529998385 2003
+254   54   2.94263510 1.242007e-01    0.539985443 2003
+255   55   3.03832713 1.308159e-01    0.549990642 2003
+256   56   3.13979068 1.376453e-01    0.559986981 2003
+257   57   3.24589559 1.447104e-01    0.569995652 2003
+258   58   3.35160075 1.519985e-01    0.579995313 2003
+259   59   3.46019892 1.595251e-01    0.589985276 2003
+260   60   3.57908279 1.673188e-01    0.599998857 2003
+261   61   3.69401510 1.753608e-01    0.609999027 2003
+262   62   3.81546824 1.836545e-01    0.619988660 2003
+263   63   3.94939803 1.922428e-01    0.629990835 2003
+264   64   4.07612739 2.011081e-01    0.639987114 2003
+265   65   4.21379078 2.102754e-01    0.649992522 2003
+266   66   4.33817325 2.197255e-01    0.659992483 2003
+267   67   4.47968494 2.294714e-01    0.669983433 2003
+268   68   4.61839802 2.395262e-01    0.679983214 2003
+269   69   4.76147104 2.498971e-01    0.689984611 2003
+270   70   4.91763168 2.605974e-01    0.699988344 2003
+271   71   5.07132683 2.716485e-01    0.709990848 2003
+272   72   5.25110549 2.830656e-01    0.719995988 2003
+273   73   5.42699749 2.948746e-01    0.729997026 2003
+274   74   5.63600350 3.070968e-01    0.739993214 2003
+275   75   5.83756428 3.197675e-01    0.749982758 2003
+276   76   6.05284886 3.329189e-01    0.759983706 2003
+277   77   6.26728451 3.465570e-01    0.769997646 2003
+278   78   6.49290895 3.606624e-01    0.779997397 2003
+279   79   6.73777539 3.752631e-01    0.789980385 2003
+280   80   6.99450835 3.904496e-01    0.799997737 2003
+281   81   7.27379670 4.062018e-01    0.809984287 2003
+282   82   7.57923423 4.226390e-01    0.819999454 2003
+283   83   7.89488859 4.397128e-01    0.829983849 2003
+284   84   8.22719517 4.575737e-01    0.839997669 2003
+285   85   8.59475230 4.761539e-01    0.849991672 2003
+286   86   9.00067713 4.956252e-01    0.859991782 2003
+287   87   9.40336440 5.159783e-01    0.869992372 2003
+288   88   9.86014920 5.372765e-01    0.879996313 2003
+289   89  10.36515462 5.596307e-01    0.889989389 2003
+290   90  10.94379914 5.831961e-01    0.899986715 2003
+291   91  11.60551500 6.081331e-01    0.909986855 2003
+292   92  12.35652976 6.346352e-01    0.919997502 2003
+293   93  13.22919390 6.628813e-01    0.929995307 2003
+294   94  14.23654921 6.931538e-01    0.939980840 2003
+295   95  15.43448566 7.260033e-01    0.949992894 2003
+296   96  17.00272005 7.618199e-01    0.959985939 2003
+297   97  19.52294619 8.020052e-01    0.969974674 2003
+298   98  23.35371113 8.491689e-01    0.979991817 2003
+299   99  29.53177071 9.067886e-01    0.989990880 2003
+300  100 164.40990379 1.000000e+00    1.000000000 2003
+301    1   0.00000000 0.000000e+00    0.009998828 2004
+302    2   0.00000000 0.000000e+00    0.019997865 2004
+303    3   0.00000000 0.000000e+00    0.029999359 2004
+304    4   0.00000000 0.000000e+00    0.039998456 2004
+305    5   0.02078841 5.913407e-06    0.049997853 2004
+306    6   0.10073688 1.338332e-04    0.059998179 2004
+307    7   0.17473396 4.220025e-04    0.069995509 2004
+308    8   0.24584333 8.622858e-04    0.079999400 2004
+309    9   0.31187795 1.445141e-03    0.089996849 2004
+310   10   0.37595107 2.164417e-03    0.099999062 2004
+311   11   0.44131651 3.016767e-03    0.109995044 2004
+312   12   0.50320866 4.003798e-03    0.119994860 2004
+313   13   0.56667369 5.121170e-03    0.129994676 2004
+314   14   0.62662750 6.366505e-03    0.139993923 2004
+315   15   0.68590895 7.735935e-03    0.149994579 2004
+316   16   0.74492618 9.227101e-03    0.159994035 2004
+317   17   0.80270357 1.084207e-02    0.169993043 2004
+318   18   0.85932824 1.257716e-02    0.179993758 2004
+319   19   0.91736912 1.442950e-02    0.189992616 2004
+320   20   0.97858797 1.640731e-02    0.199994260 2004
+321   21   1.03489838 1.850846e-02    0.209992428 2004
+322   22   1.09604747 2.073355e-02    0.219994611 2004
+323   23   1.15357600 2.307988e-02    0.229994008 2004
+324   24   1.21462753 2.555018e-02    0.239996671 2004
+325   25   1.27222773 2.814381e-02    0.249997356 2004
+326   26   1.33227021 3.086075e-02    0.259996483 2004
+327   27   1.39043896 3.370075e-02    0.269992375 2004
+328   28   1.45372018 3.666745e-02    0.279992700 2004
+329   29   1.51660595 3.976484e-02    0.289994105 2004
+330   30   1.57718498 4.299233e-02    0.299995988 2004
+331   31   1.63744002 4.634415e-02    0.309989693 2004
+332   32   1.69769631 4.982356e-02    0.319991337 2004
+333   33   1.76214272 5.343258e-02    0.329988756 2004
+334   34   1.82628155 5.718262e-02    0.339998699 2004
+335   35   1.89149401 6.105873e-02    0.349990696 2004
+336   36   1.95549610 6.506992e-02    0.359990063 2004
+337   37   2.02287127 6.921920e-02    0.369989010 2004
+338   38   2.08751729 7.350784e-02    0.379989635 2004
+339   39   2.15559192 7.793945e-02    0.389998050 2004
+340   40   2.22161100 8.250296e-02    0.399993493 2004
+341   41   2.29367758 8.721198e-02    0.409990523 2004
+342   42   2.36380993 9.207247e-02    0.419997020 2004
+343   43   2.43736453 9.708175e-02    0.429996717 2004
+344   44   2.51571926 1.022491e-01    0.439992818 2004
+345   45   2.59201570 1.075813e-01    0.449998566 2004
+346   46   2.67542351 1.130764e-01    0.459996375 2004
+347   47   2.75007749 1.187335e-01    0.469989121 2004
+348   48   2.82909495 1.245580e-01    0.479994121 2004
+349   49   2.91000986 1.305460e-01    0.489999030 2004
+350   50   2.99370723 1.366933e-01    0.499985634 2004
+351   51   3.08062749 1.430293e-01    0.509985091 2004
+352   52   3.16388063 1.495481e-01    0.519993116 2004
+353   53   3.25779440 1.562469e-01    0.529993022 2004
+354   54   3.34556168 1.631301e-01    0.539990921 2004
+355   55   3.44162754 1.702053e-01    0.549988251 2004
+356   56   3.53537610 1.774894e-01    0.559991453 2004
+357   57   3.63689510 1.849718e-01    0.569993187 2004
+358   58   3.73761288 1.926719e-01    0.579997168 2004
+359   59   3.84511603 2.005833e-01    0.589996055 2004
+360   60   3.94633454 2.087181e-01    0.599999497 2004
+361   61   4.05701166 2.170659e-01    0.609997515 2004
+362   62   4.17902343 2.256529e-01    0.619988254 2004
+363   63   4.29594353 2.344961e-01    0.629991306 2004
+364   64   4.42364512 2.435847e-01    0.639985789 2004
+365   65   4.54532721 2.529375e-01    0.649985456 2004
+366   66   4.67585856 2.625690e-01    0.659990695 2004
+367   67   4.80148081 2.724540e-01    0.669982332 2004
+368   68   4.94603805 2.826262e-01    0.679990597 2004
+369   69   5.08644660 2.931039e-01    0.689998413 2004
+370   70   5.24160475 3.038665e-01    0.699985346 2004
+371   71   5.40244760 3.149783e-01    0.709989567 2004
+372   72   5.56072223 3.264119e-01    0.719989623 2004
+373   73   5.71859372 3.381673e-01    0.729985065 2004
+374   74   5.90516298 3.502912e-01    0.739989765 2004
+375   75   6.10798674 3.628270e-01    0.749990031 2004
+376   76   6.30904813 3.757874e-01    0.759996169 2004
+377   77   6.50035093 3.891447e-01    0.769989783 2004
+378   78   6.70539710 4.029262e-01    0.779990349 2004
+379   79   6.93565694 4.171702e-01    0.789997805 2004
+380   80   7.16106945 4.318673e-01    0.799992348 2004
+381   81   7.42743650 4.470642e-01    0.809981019 2004
+382   82   7.69201611 4.628352e-01    0.819982184 2004
+383   83   7.97603177 4.791914e-01    0.829990748 2004
+384   84   8.27372445 4.961267e-01    0.839989127 2004
+385   85   8.62302254 5.137267e-01    0.849977708 2004
+386   86   8.96773687 5.320833e-01    0.859979022 2004
+387   87   9.35230241 5.511987e-01    0.869983423 2004
+388   88   9.80607917 5.712195e-01    0.879999687 2004
+389   89  10.27422824 5.921028e-01    0.889979340 2004
+390   90  10.85600879 6.141483e-01    0.899991830 2004
+391   91  11.48551380 6.374515e-01    0.909987392 2004
+392   92  12.21209052 6.621482e-01    0.919994998 2004
+393   93  13.12227252 6.885357e-01    0.929997001 2004
+394   94  14.08614081 7.168977e-01    0.939995260 2004
+395   95  15.29960697 7.475064e-01    0.949987676 2004
+396   96  16.84721967 7.808904e-01    0.959981530 2004
+397   97  19.05648713 8.182174e-01    0.969989765 2004
+398   98  22.16533122 8.609169e-01    0.979976219 2004
+399   99  28.93469741 9.131334e-01    0.989977743 2004
+400  100 135.18267712 1.000000e+00    1.000000000 2004
+401    1   0.21449577 2.065905e-04    0.009999018 2005
+402    2   0.35211069 7.726293e-04    0.019998873 2005
+403    3   0.45217508 1.568100e-03    0.029997143 2005
+404    4   0.54088607 2.549681e-03    0.039996998 2005
+405    5   0.61890956 3.693058e-03    0.049997842 2005
+406    6   0.69087994 4.985261e-03    0.059999074 2005
+407    7   0.75830952 6.412905e-03    0.069999259 2005
+408    8   0.82477647 7.972550e-03    0.079997858 2005
+409    9   0.88770073 9.660217e-03    0.089997384 2005
+410   10   0.95026575 1.146822e-02    0.099996881 2005
+411   11   1.00556735 1.339443e-02    0.109997904 2005
+412   12   1.05887994 1.542687e-02    0.119998508 2005
+413   13   1.11778420 1.757065e-02    0.129999980 2005
+414   14   1.17032578 1.982325e-02    0.139997022 2005
+415   15   1.22541267 2.218037e-02    0.149992867 2005
+416   16   1.27864926 2.464655e-02    0.159995027 2005
+417   17   1.33458127 2.722027e-02    0.169995242 2005
+418   18   1.38967424 2.990523e-02    0.179997134 2005
+419   19   1.44460399 3.269425e-02    0.189996151 2005
+420   20   1.49783666 3.559218e-02    0.199991577 2005
+421   21   1.54847644 3.859188e-02    0.209991851 2005
+422   22   1.60380991 4.169873e-02    0.219993982 2005
+423   23   1.65741745 4.491148e-02    0.229994137 2005
+424   24   1.71327501 4.822974e-02    0.239994232 2005
+425   25   1.76724189 5.165564e-02    0.249991155 2005
+426   26   1.82023109 5.518982e-02    0.259994752 2005
+427   27   1.87304982 5.882643e-02    0.269991255 2005
+428   28   1.92797009 6.257022e-02    0.279996768 2005
+429   29   1.98337563 6.642161e-02    0.289997492 2005
+430   30   2.03975024 7.038123e-02    0.299994384 2005
+431   31   2.09782134 7.445779e-02    0.309997832 2005
+432   32   2.15452801 7.864506e-02    0.319996042 2005
+433   33   2.21496388 8.294787e-02    0.329994730 2005
+434   34   2.27117250 8.736384e-02    0.339992011 2005
+435   35   2.33007075 9.189529e-02    0.349999829 2005
+436   36   2.39188842 9.654480e-02    0.359999386 2005
+437   37   2.44955459 1.013072e-01    0.369988166 2005
+438   38   2.51071938 1.061981e-01    0.379998858 2005
+439   39   2.57543432 1.112044e-01    0.389995241 2005
+440   40   2.64098072 1.163395e-01    0.399993301 2005
+441   41   2.70632248 1.216061e-01    0.409995491 2005
+442   42   2.77245654 1.270007e-01    0.419991605 2005
+443   43   2.83998598 1.325273e-01    0.429992419 2005
+444   44   2.90656270 1.381842e-01    0.439992604 2005
+445   45   2.98354161 1.439862e-01    0.449998027 2005
+446   46   3.06176018 1.499384e-01    0.459994381 2005
+447   47   3.12916637 1.560321e-01    0.469990225 2005
+448   48   3.20382712 1.622721e-01    0.479991189 2005
+449   49   3.28687600 1.686595e-01    0.489987632 2005
+450   50   3.35820559 1.752048e-01    0.499988835 2005
+451   51   3.43681117 1.818996e-01    0.509991834 2005
+452   52   3.51619943 1.887513e-01    0.519997826 2005
+453   53   3.60104266 1.957575e-01    0.529996813 2005
+454   54   3.68785755 2.029365e-01    0.539999632 2005
+455   55   3.77589325 2.102800e-01    0.549997991 2005
+456   56   3.87016334 2.178089e-01    0.559992130 2005
+457   57   3.96146414 2.255213e-01    0.569996625 2005
+458   58   4.05815173 2.334193e-01    0.579996212 2005
+459   59   4.15170155 2.414981e-01    0.589987057 2005
+460   60   4.25007041 2.497688e-01    0.599985476 2005
+461   61   4.35021293 2.582322e-01    0.609984075 2005
+462   62   4.45565146 2.669160e-01    0.619998897 2005
+463   63   4.57087084 2.757966e-01    0.629991689 2005
+464   64   4.68874146 2.849234e-01    0.639996543 2005
+465   65   4.80300061 2.942653e-01    0.649997716 2005
+466   66   4.91947311 3.038321e-01    0.659986377 2005
+467   67   5.03573347 3.136316e-01    0.669981892 2005
+468   68   5.16886953 3.236962e-01    0.679996894 2005
+469   69   5.29495133 3.340000e-01    0.689994684 2005
+470   70   5.43445197 3.445659e-01    0.699998910 2005
+471   71   5.57114261 3.553763e-01    0.709981973 2005
+472   72   5.72092911 3.664961e-01    0.719984852 2005
+473   73   5.88440853 3.779250e-01    0.729987163 2005
+474   74   6.06586587 3.896881e-01    0.739981930 2005
+475   75   6.23575603 4.018064e-01    0.749987233 2005
+476   76   6.42670013 4.142694e-01    0.759986490 2005
+477   77   6.61941426 4.271080e-01    0.769983413 2005
+478   78   6.82982144 4.403684e-01    0.779995541 2005
+479   79   7.05708804 4.540131e-01    0.789979113 2005
+480   80   7.28032325 4.681337e-01    0.799979597 2005
+481   81   7.53559896 4.827265e-01    0.809987864 2005
+482   82   7.81264494 4.978254e-01    0.819981344 2005
+483   83   8.08838581 5.134934e-01    0.829980721 2005
+484   84   8.37012148 5.297106e-01    0.839987581 2005
+485   85   8.67918435 5.465243e-01    0.849998632 2005
+486   86   9.05535237 5.639764e-01    0.859991842 2005
+487   87   9.41841569 5.821555e-01    0.869987927 2005
+488   88   9.84218644 6.011356e-01    0.879992422 2005
+489   89  10.28219483 6.209372e-01    0.889981921 2005
+490   90  10.81706293 6.417067e-01    0.899976269 2005
+491   91  11.41827693 6.636458e-01    0.909997287 2005
+492   92  12.14589947 6.868314e-01    0.919981937 2005
+493   93  12.93181661 7.114840e-01    0.929984636 2005
+494   94  13.91985344 7.379030e-01    0.939985360 2005
+495   95  15.18977732 7.665213e-01    0.949984617 2005
+496   96  16.74290358 7.978434e-01    0.959991058 2005
+497   97  18.50768469 8.324719e-01    0.969992890 2005
+498   98  21.83588866 8.717908e-01    0.979992655 2005
+499   99  28.14663130 9.203996e-01    0.989989069 2005
+500  100 102.16975274 1.000000e+00    1.000000000 2005
+501    1   0.80531025 1.286124e-03    0.009999923 2006
+502    2   0.93284252 2.906407e-03    0.019999695 2006
+503    3   1.02925812 4.729437e-03    0.029998117 2006
+504    4   1.11368004 6.719833e-03    0.039998820 2006
+505    5   1.19147437 8.858133e-03    0.049999013 2006
+506    6   1.25937426 1.113091e-02    0.059998575 2006
+507    7   1.32306882 1.352737e-02    0.069999248 2006
+508    8   1.38494122 1.603864e-02    0.079999441 2006
+509    9   1.44055140 1.865929e-02    0.089995672 2006
+510   10   1.49525000 2.138217e-02    0.099999436 2006
+511   11   1.54895688 2.420429e-02    0.109997078 2006
+512   12   1.60253934 2.712812e-02    0.119998471 2006
+513   13   1.65464130 3.014845e-02    0.129998033 2006
+514   14   1.70697150 3.326456e-02    0.139996636 2006
+515   15   1.75905901 3.647875e-02    0.149997038 2006
+516   16   1.80966852 3.978747e-02    0.159993570 2006
+517   17   1.86073361 4.319046e-02    0.169992292 2006
+518   18   1.91197710 4.669088e-02    0.179996326 2006
+519   19   1.96290644 5.028373e-02    0.189994088 2006
+520   20   2.01233399 5.397072e-02    0.199995091 2006
+521   21   2.06162355 5.774770e-02    0.209993483 2006
+522   22   2.11443851 6.162259e-02    0.219999707 2006
+523   23   2.16522033 6.558851e-02    0.229992758 2006
+524   24   2.21744812 6.965087e-02    0.239991450 2006
+525   25   2.27150224 7.381409e-02    0.249992003 2006
+526   26   2.32515268 7.807532e-02    0.259990875 2006
+527   27   2.37844592 8.243968e-02    0.269996679 2006
+528   28   2.43128057 8.689703e-02    0.279991231 2006
+529   29   2.48332708 9.145644e-02    0.289996585 2006
+530   30   2.53808127 9.611484e-02    0.299998608 2006
+531   31   2.59310546 1.008701e-01    0.309988958 2006
+532   32   2.64809142 1.057322e-01    0.319990351 2006
+533   33   2.70367386 1.106990e-01    0.329998315 2006
+534   34   2.75984796 1.157614e-01    0.339988846 2006
+535   35   2.81788177 1.209356e-01    0.349992279 2006
+536   36   2.86967893 1.262133e-01    0.359998863 2006
+537   37   2.92836227 1.315882e-01    0.369992004 2006
+538   38   2.98702785 1.370726e-01    0.379989976 2006
+539   39   3.04857680 1.426752e-01    0.389998631 2006
+540   40   3.11127829 1.483874e-01    0.399996693 2006
+541   41   3.17461282 1.542113e-01    0.409988664 2006
+542   42   3.23738413 1.601606e-01    0.419995428 2006
+543   43   3.29963410 1.662203e-01    0.429994781 2006
+544   44   3.36142275 1.723986e-01    0.439995783 2006
+545   45   3.42690917 1.786966e-01    0.449997146 2006
+546   46   3.49773509 1.851178e-01    0.459996229 2006
+547   47   3.56914426 1.916728e-01    0.469996601 2006
+548   48   3.63664607 1.983522e-01    0.479990793 2006
+549   49   3.70382592 2.051656e-01    0.489998517 2006
+550   50   3.77400670 2.120962e-01    0.499992498 2006
+551   51   3.85188153 2.191625e-01    0.509986899 2006
+552   52   3.93048032 2.263780e-01    0.519986012 2006
+553   53   4.01065615 2.337531e-01    0.529999228 2006
+554   54   4.09179509 2.412648e-01    0.539995969 2006
+555   55   4.17343869 2.489268e-01    0.549992411 2006
+556   56   4.25448415 2.567387e-01    0.559989183 2006
+557   57   4.33954107 2.647146e-01    0.569994177 2006
+558   58   4.43163136 2.728445e-01    0.579990678 2006
+559   59   4.51884732 2.811489e-01    0.589992912 2006
+560   60   4.61779958 2.896276e-01    0.599999676 2006
+561   61   4.71298269 2.982706e-01    0.609989276 2006
+562   62   4.80607331 3.071020e-01    0.619997811 2006
+563   63   4.90745895 3.160973e-01    0.629985100 2006
+564   64   5.01414429 3.252966e-01    0.639986763 2006
+565   65   5.12729908 3.347084e-01    0.649994758 2006
+566   66   5.23295385 3.443049e-01    0.659990659 2006
+567   67   5.34777716 3.541197e-01    0.669993553 2006
+568   68   5.47505193 3.641462e-01    0.679984503 2006
+569   69   5.60644454 3.744240e-01    0.689983885 2006
+570   70   5.73979213 3.849498e-01    0.699984168 2006
+571   71   5.87694825 3.957424e-01    0.709999574 2006
+572   72   6.01933097 4.067616e-01    0.719988904 2006
+573   73   6.17600492 4.180750e-01    0.729994648 2006
+574   74   6.33176566 4.296818e-01    0.739999072 2006
+575   75   6.49180805 4.415763e-01    0.749998395 2006
+576   76   6.67889457 4.537718e-01    0.759985924 2006
+577   77   6.86904438 4.663295e-01    0.769982216 2006
+578   78   7.05958335 4.792486e-01    0.779987900 2006
+579   79   7.25438092 4.925055e-01    0.789979180 2006
+580   80   7.46864115 5.061577e-01    0.799982104 2006
+581   81   7.68904654 5.202349e-01    0.809995620 2006
+582   82   7.94526966 5.347212e-01    0.819994072 2006
+583   83   8.22132229 5.496958e-01    0.829984512 2006
+584   84   8.48926345 5.651957e-01    0.839984585 2006
+585   85   8.76378092 5.812062e-01    0.849992639 2006
+586   86   9.09977316 5.977599e-01    0.859983259 2006
+587   87   9.44654193 6.149535e-01    0.869977871 2006
+588   88   9.87637077 6.329112e-01    0.879998348 2006
+589   89  10.33222097 6.516434e-01    0.889999141 2006
+590   90  10.82657144 6.712527e-01    0.899986731 2006
+591   91  11.40873673 6.918679e-01    0.909987944 2006
+592   92  12.04915278 7.135824e-01    0.919978474 2006
+593   93  12.77286720 7.365949e-01    0.929990309 2006
+594   94  13.71655836 7.611446e-01    0.939990832 2006
+595   95  14.83329401 7.875733e-01    0.949994956 2006
+596   96  16.25402134 8.164276e-01    0.959998989 2006
+597   97  18.35909226 8.483620e-01    0.969998102 2006
+598   98  21.21180104 8.850234e-01    0.979990162 2006
+599   99  26.72361886 9.288083e-01    0.989977872 2006
+600  100 176.00784403 1.000000e+00    1.000000000 2006
+601    1   1.38192339 2.230895e-03    0.009999263 2007
+602    2   1.50077046 4.760934e-03    0.019999243 2007
+603    3   1.59030315 7.468758e-03    0.029997580 2007
+604    4   1.66793903 1.032156e-02    0.039997828 2007
+605    5   1.73678326 1.330254e-02    0.049999779 2007
+606    6   1.80168709 1.640035e-02    0.059999400 2007
+607    7   1.86081716 1.960546e-02    0.069995558 2007
+608    8   1.92070161 2.291591e-02    0.079997956 2007
+609    9   1.97460251 2.632467e-02    0.089995069 2007
+610   10   2.02906093 2.982885e-02    0.099995288 2007
+611   11   2.08099200 3.342549e-02    0.109996014 2007
+612   12   2.13015272 3.711161e-02    0.119998442 2007
+613   13   2.18454956 4.088618e-02    0.129995376 2007
+614   14   2.23164314 4.475083e-02    0.139993355 2007
+615   15   2.28216538 4.870253e-02    0.149997277 2007
+616   16   2.33127915 5.274080e-02    0.159998510 2007
+617   17   2.37928077 5.686228e-02    0.169996280 2007
+618   18   2.42901683 6.106915e-02    0.179993244 2007
+619   19   2.47694046 6.536515e-02    0.189995105 2007
+620   20   2.52399128 6.974032e-02    0.199991412 2007
+621   21   2.57225305 7.420201e-02    0.209995333 2007
+622   22   2.61896157 7.874523e-02    0.219993969 2007
+623   23   2.66630516 8.337025e-02    0.229993680 2007
+624   24   2.71410819 8.807785e-02    0.239991539 2007
+625   25   2.76180279 9.286974e-02    0.249991011 2007
+626   26   2.81140174 9.774917e-02    0.259996516 2007
+627   27   2.86200744 1.027146e-01    0.269997391 2007
+628   28   2.91104463 1.077652e-01    0.279995639 2007
+629   29   2.96198879 1.129052e-01    0.289993170 2007
+630   30   3.01159898 1.181359e-01    0.299997928 2007
+631   31   3.06444552 1.234500e-01    0.309992054 2007
+632   32   3.11500034 1.288599e-01    0.319992153 2007
+633   33   3.16626323 1.343610e-01    0.329997001 2007
+634   34   3.21804006 1.399492e-01    0.339998563 2007
+635   35   3.26956189 1.456262e-01    0.349995975 2007
+636   36   3.32519361 1.513972e-01    0.359994730 2007
+637   37   3.37834240 1.572649e-01    0.369995247 2007
+638   38   3.43538050 1.632298e-01    0.379997676 2007
+639   39   3.49187098 1.692920e-01    0.389996759 2007
+640   40   3.55175270 1.754558e-01    0.399993245 2007
+641   41   3.60483634 1.817188e-01    0.409992956 2007
+642   42   3.66241299 1.880763e-01    0.419989860 2007
+643   43   3.72486623 1.945436e-01    0.429993005 2007
+644   44   3.78529448 2.011199e-01    0.439996688 2007
+645   45   3.84680389 2.077950e-01    0.449992039 2007
+646   46   3.91276078 2.145944e-01    0.459999812 2007
+647   47   3.97798396 2.214923e-01    0.469986981 2007
+648   48   4.04302646 2.285217e-01    0.479996547 2007
+649   49   4.10883988 2.356513e-01    0.489987627 2007
+650   50   4.17473057 2.429091e-01    0.499999343 2007
+651   51   4.24461223 2.502741e-01    0.509994425 2007
+652   52   4.31670908 2.577676e-01    0.519993599 2007
+653   53   4.38938332 2.653907e-01    0.529994594 2007
+654   54   4.46591635 2.731436e-01    0.539998008 2007
+655   55   4.54440709 2.810238e-01    0.549988521 2007
+656   56   4.62234291 2.890482e-01    0.559988501 2007
+657   57   4.70840103 2.972106e-01    0.569983672 2007
+658   58   4.79050128 3.055293e-01    0.579989714 2007
+659   59   4.87190292 3.139829e-01    0.589986767 2007
+660   60   4.96392454 3.225888e-01    0.599984925 2007
+661   61   5.05912126 3.313566e-01    0.609985801 2007
+662   62   5.15656874 3.403001e-01    0.619989304 2007
+663   63   5.25154298 3.494003e-01    0.629983013 2007
+664   64   5.34470057 3.586723e-01    0.639984217 2007
+665   65   5.45429733 3.681297e-01    0.649990438 2007
+666   66   5.56360224 3.777826e-01    0.659997137 2007
+667   67   5.67558031 3.876186e-01    0.669992667 2007
+668   68   5.78677902 3.976449e-01    0.679987451 2007
+669   69   5.91583685 4.078848e-01    0.689986236 2007
+670   70   6.04132838 4.183469e-01    0.699984573 2007
+671   71   6.17130688 4.290468e-01    0.709996647 2007
+672   72   6.30109443 4.399565e-01    0.719990535 2007
+673   73   6.44192419 4.510983e-01    0.729983168 2007
+674   74   6.58279268 4.625108e-01    0.739990703 2007
+675   75   6.73262764 4.741711e-01    0.749995461 2007
+676   76   6.89249760 4.861019e-01    0.759999353 2007
+677   77   7.05669139 4.982981e-01    0.769987477 2007
+678   78   7.22674263 5.107909e-01    0.779981693 2007
+679   79   7.42093986 5.236080e-01    0.789984331 2007
+680   80   7.62289389 5.367912e-01    0.799998525 2007
+681   81   7.85745316 5.503408e-01    0.809998295 2007
+682   82   8.09943965 5.642835e-01    0.819982060 2007
+683   83   8.34958121 5.786845e-01    0.829992581 2007
+684   84   8.60236423 5.935083e-01    0.839982945 2007
+685   85   8.90139450 6.088229e-01    0.849981850 2007
+686   86   9.23488754 6.247109e-01    0.859986906 2007
+687   87   9.60394496 6.412090e-01    0.869998203 2007
+688   88  10.00525105 6.583570e-01    0.879988000 2007
+689   89  10.43585735 6.762512e-01    0.889990429 2007
+690   90  10.92635414 6.949659e-01    0.899999994 2007
+691   91  11.43450446 7.144678e-01    0.909979757 2007
+692   92  12.05060501 7.350542e-01    0.919994728 2007
+693   93  12.79176415 7.568167e-01    0.929998559 2007
+694   94  13.70804755 7.799451e-01    0.939974739 2007
+695   95  14.74452095 8.048581e-01    0.949975734 2007
+696   96  16.05444645 8.317619e-01    0.959977416 2007
+697   97  17.82677412 8.613418e-01    0.969979456 2007
+698   98  20.59536766 8.949418e-01    0.979978988 2007
+699   99  26.09953981 9.351610e-01    0.989975563 2007
+700  100 104.18033480 1.000000e+00    1.000000000 2007
+701    1   1.96789114 3.099459e-03    0.009998282 2008
+702    2   2.08275309 6.465983e-03    0.019999561 2008
+703    3   2.17117943 9.997877e-03    0.029998293 2008
+704    4   2.24390908 1.366208e-02    0.039998133 2008
+705    5   2.30934936 1.744282e-02    0.049999922 2008
+706    6   2.36891141 2.132515e-02    0.059998594 2008
+707    7   2.42668802 2.530319e-02    0.069996037 2008
+708    8   2.48187015 2.937796e-02    0.079999684 2008
+709    9   2.53485467 3.354096e-02    0.089998505 2008
+710   10   2.58542833 3.778957e-02    0.099998466 2008
+711   11   2.63539941 4.212124e-02    0.109997197 2008
+712   12   2.68482889 4.653580e-02    0.119998326 2008
+713   13   2.73177220 5.102932e-02    0.129998617 2008
+714   14   2.77910018 5.559953e-02    0.139994022 2008
+715   15   2.82675950 6.025189e-02    0.149997519 2008
+716   16   2.86970368 6.497655e-02    0.159992624 2008
+717   17   2.91171436 6.977700e-02    0.169998518 2008
+718   18   2.95544318 7.464131e-02    0.179992035 2008
+719   19   2.99919058 7.958507e-02    0.189998859 2008
+720   20   3.04085002 8.459715e-02    0.199999658 2008
+721   21   3.08513275 8.967798e-02    0.209995033 2008
+722   22   3.13161755 9.483755e-02    0.219999489 2008
+723   23   3.17848237 1.000708e-01    0.229996063 2008
+724   24   3.22394622 1.053793e-01    0.239991139 2008
+725   25   3.26740810 1.107678e-01    0.249997962 2008
+726   26   3.31368550 1.162255e-01    0.259993787 2008
+727   27   3.36339750 1.217674e-01    0.269996265 2008
+728   28   3.41091926 1.273882e-01    0.279996015 2008
+729   29   3.45394214 1.330849e-01    0.289995826 2008
+730   30   3.49957820 1.388528e-01    0.299990931 2008
+731   31   3.54656202 1.446993e-01    0.309991611 2008
+732   32   3.59479039 1.506256e-01    0.319994359 2008
+733   33   3.64252452 1.566310e-01    0.329996117 2008
+734   34   3.69412033 1.627153e-01    0.339992481 2008
+735   35   3.74622185 1.688937e-01    0.349999844 2008
+736   36   3.79550170 1.751448e-01    0.359990304 2008
+737   37   3.84504020 1.814823e-01    0.369989366 2008
+738   38   3.89879411 1.879116e-01    0.379994691 2008
+739   39   3.94934631 1.944268e-01    0.389999866 2008
+740   40   4.00361927 2.010227e-01    0.399996140 2008
+741   41   4.06057840 2.077160e-01    0.409997209 2008
+742   42   4.11835672 2.144987e-01    0.419991445 2008
+743   43   4.17622728 2.213816e-01    0.429991885 2008
+744   44   4.23429861 2.283653e-01    0.439999069 2008
+745   45   4.28926480 2.354350e-01    0.449996272 2008
+746   46   4.34870081 2.425931e-01    0.459986762 2008
+747   47   4.40650881 2.498610e-01    0.469992327 2008
+748   48   4.46367215 2.572166e-01    0.479988721 2008
+749   49   4.52644223 2.646733e-01    0.489986553 2008
+750   50   4.59032953 2.722465e-01    0.499996973 2008
+751   51   4.65794615 2.799170e-01    0.509991929 2008
+752   52   4.72506996 2.876990e-01    0.519987124 2008
+753   53   4.79074171 2.955979e-01    0.529990950 2008
+754   54   4.86094853 3.036120e-01    0.539998853 2008
+755   55   4.93373180 3.117399e-01    0.549999832 2008
+756   56   5.01041849 3.199888e-01    0.559996166 2008
+757   57   5.08504685 3.283643e-01    0.569996786 2008
+758   58   5.16304907 3.368582e-01    0.579990123 2008
+759   59   5.24231871 3.454857e-01    0.589984539 2008
+760   60   5.32573819 3.542611e-01    0.599995379 2008
+761   61   5.41511527 3.631662e-01    0.609989165 2008
+762   62   5.50602647 3.722346e-01    0.619998297 2008
+763   63   5.59502800 3.814338e-01    0.629987917 2008
+764   64   5.69512925 3.908035e-01    0.639991714 2008
+765   65   5.78700753 4.003210e-01    0.649984572 2008
+766   66   5.89916893 4.100185e-01    0.659985731 2008
+767   67   6.00540437 4.199038e-01    0.669994592 2008
+768   68   6.12172903 4.299595e-01    0.679990717 2008
+769   69   6.23397325 4.402186e-01    0.689997360 2008
+770   70   6.34353642 4.506481e-01    0.699989229 2008
+771   71   6.45926925 4.612768e-01    0.709992456 2008
+772   72   6.58374003 4.720931e-01    0.719990349 2008
+773   73   6.71942337 4.831213e-01    0.729982127 2008
+774   74   6.86127867 4.943879e-01    0.739982837 2008
+775   75   6.99941296 5.059043e-01    0.749999670 2008
+776   76   7.16239687 5.176507e-01    0.759995135 2008
+777   77   7.32031811 5.296701e-01    0.769998872 2008
+778   78   7.49952697 5.419636e-01    0.779990231 2008
+779   79   7.67231310 5.545474e-01    0.789988244 2008
+780   80   7.86560195 5.674353e-01    0.799988114 2008
+781   81   8.05069163 5.806503e-01    0.809990382 2008
+782   82   8.28380959 5.941822e-01    0.819979404 2008
+783   83   8.52788931 6.081501e-01    0.829999833 2008
+784   84   8.75441902 6.224825e-01    0.839990084 2008
+785   85   9.01100265 6.372279e-01    0.849989894 2008
+786   86   9.29197466 6.524184e-01    0.859994020 2008
+787   87   9.61866846 6.681210e-01    0.869997487 2008
+788   88   9.96829316 6.843399e-01    0.879988067 2008
+789   89  10.36040284 7.011727e-01    0.889981644 2008
+790   90  10.80247732 7.187056e-01    0.899980316 2008
+791   91  11.33323610 7.370694e-01    0.909977969 2008
+792   92  11.89508595 7.563384e-01    0.919986321 2008
+793   93  12.58862107 7.766035e-01    0.929979358 2008
+794   94  13.33636866 7.981154e-01    0.939991846 2008
+795   95  14.24396730 8.209493e-01    0.949979099 2008
+796   96  15.45324243 8.455970e-01    0.959986522 2008
+797   97  17.21587665 8.726425e-01    0.969982197 2008
+798   98  19.93462574 9.034143e-01    0.979994565 2008
+799   99  25.44813099 9.404928e-01    0.989980439 2008
+800  100 118.52763047 1.000000e+00    1.000000000 2008
+801    1   2.55700603 3.884774e-03    0.009999874 2009
+802    2   2.65964228 7.999658e-03    0.019997659 2009
+803    3   2.74039581 1.225648e-02    0.029998071 2009
+804    4   2.80495288 1.662698e-02    0.039999675 2009
+805    5   2.86475295 2.109462e-02    0.049998207 2009
+806    6   2.92022206 2.565200e-02    0.059997335 2009
+807    7   2.97376580 3.029668e-02    0.069999656 2009
+808    8   3.02330207 3.502069e-02    0.079996635 2009
+809    9   3.07104800 3.982355e-02    0.089999911 2009
+810   10   3.11604757 4.469670e-02    0.099996533 2009
+811   11   3.16210926 4.964401e-02    0.109998227 2009
+812   12   3.20610779 5.466093e-02    0.119998012 2009
+813   13   3.25151402 5.974965e-02    0.129999616 2009
+814   14   3.29452687 6.490450e-02    0.139995910 2009
+815   15   3.33575155 7.012924e-02    0.149997962 2009
+816   16   3.37664626 7.541645e-02    0.159995926 2009
+817   17   3.41824699 8.077090e-02    0.169999232 2009
+818   18   3.45958131 8.618698e-02    0.179994153 2009
+819   19   3.50121824 9.167295e-02    0.189998682 2009
+820   20   3.54277447 9.721949e-02    0.199992289 2009
+821   21   3.58497207 1.028383e-01    0.209996550 2009
+822   22   3.62639018 1.085172e-01    0.219993082 2009
+823   23   3.67042763 1.142675e-01    0.229995403 2009
+824   24   3.71413826 1.200873e-01    0.239999992 2009
+825   25   3.75740192 1.259730e-01    0.249997866 2009
+826   26   3.79974478 1.319246e-01    0.259995174 2009
+827   27   3.84466596 1.379498e-01    0.269999405 2009
+828   28   3.88959660 1.440405e-01    0.279994206 2009
+829   29   3.93228660 1.502014e-01    0.289993394 2009
+830   30   3.97508871 1.564281e-01    0.299991120 2009
+831   31   4.01892323 1.627282e-01    0.309994575 2009
+832   32   4.06363165 1.690959e-01    0.319995135 2009
+833   33   4.11029387 1.755376e-01    0.329997277 2009
+834   34   4.15512392 1.820494e-01    0.339999449 2009
+835   35   4.20079390 1.886248e-01    0.349988551 2009
+836   36   4.25048578 1.952826e-01    0.359989380 2009
+837   37   4.29914871 2.020189e-01    0.369989015 2009
+838   38   4.34711592 2.088306e-01    0.379989187 2009
+839   39   4.39266060 2.157149e-01    0.389987898 2009
+840   40   4.44540060 2.226796e-01    0.399990487 2009
+841   41   4.49914136 2.297248e-01    0.409989377 2009
+842   42   4.55039834 2.368601e-01    0.419997636 2009
+843   43   4.60204136 2.440676e-01    0.429993959 2009
+844   44   4.65387123 2.513561e-01    0.439988223 2009
+845   45   4.70819274 2.587333e-01    0.449991648 2009
+846   46   4.76276428 2.661944e-01    0.459992417 2009
+847   47   4.81605743 2.737442e-01    0.469998080 2009
+848   48   4.87651216 2.813784e-01    0.479997745 2009
+849   49   4.93521326 2.891080e-01    0.489997112 2009
+850   50   4.99548213 2.969234e-01    0.499986602 2009
+851   51   5.05618193 3.048405e-01    0.509985641 2009
+852   52   5.11626937 3.128635e-01    0.519995392 2009
+853   53   5.17879343 3.209694e-01    0.529990939 2009
+854   54   5.24507786 3.291805e-01    0.539989679 2009
+855   55   5.31406401 3.375017e-01    0.549994566 2009
+856   56   5.38746923 3.459340e-01    0.559996440 2009
+857   57   5.45562023 3.544693e-01    0.569989689 2009
+858   58   5.53362044 3.631302e-01    0.579993502 2009
+859   59   5.61097575 3.719142e-01    0.589997673 2009
+860   60   5.68414457 3.808011e-01    0.599985044 2009
+861   61   5.75948657 3.898211e-01    0.609990678 2009
+862   62   5.84422300 3.989670e-01    0.619995893 2009
+863   63   5.93689878 4.082450e-01    0.629993768 2009
+864   64   6.02717591 4.176720e-01    0.639996029 2009
+865   65   6.12230738 4.272363e-01    0.649987608 2009
+866   66   6.21808111 4.369610e-01    0.659988228 2009
+867   67   6.31916260 4.468380e-01    0.669990250 2009
+868   68   6.42015747 4.568799e-01    0.679995376 2009
+869   69   6.52449214 4.670637e-01    0.689981852 2009
+870   70   6.63609063 4.774365e-01    0.699990022 2009
+871   71   6.75701491 4.879971e-01    0.709998370 2009
+872   72   6.87656418 4.987212e-01    0.719981952 2009
+873   73   7.00733557 5.096624e-01    0.729987466 2009
+874   74   7.14810225 5.208168e-01    0.739992144 2009
+875   75   7.27897378 5.321759e-01    0.749989034 2009
+876   76   7.42895788 5.437708e-01    0.759995413 2009
+877   77   7.56973615 5.555792e-01    0.769985500 2009
+878   78   7.72979818 5.676253e-01    0.779981047 2009
+879   79   7.88799803 5.799350e-01    0.789988411 2009
+880   80   8.06702334 5.925199e-01    0.799998192 2009
+881   81   8.25855334 6.053683e-01    0.809992814 2009
+882   82   8.45725005 6.185381e-01    0.819994538 2009
+883   83   8.65888283 6.320005e-01    0.829980865 2009
+884   84   8.89736681 6.458324e-01    0.839978173 2009
+885   85   9.17674588 6.600775e-01    0.849984940 2009
+886   86   9.45179506 6.747666e-01    0.859993945 2009
+887   87   9.73841266 6.898701e-01    0.869985046 2009
+888   88  10.06991641 7.054763e-01    0.879986174 2009
+889   89  10.45745307 7.216570e-01    0.889989628 2009
+890   90  10.90531127 7.384885e-01    0.899993829 2009
+891   91  11.35317994 7.560144e-01    0.909991048 2009
+892   92  11.90564487 7.743401e-01    0.919995726 2009
+893   93  12.51448939 7.935627e-01    0.929982918 2009
+894   94  13.23294557 8.138364e-01    0.939989148 2009
+895   95  14.12382042 8.354165e-01    0.949990663 2009
+896   96  15.38351608 8.586317e-01    0.959995133 2009
+897   97  17.03787876 8.840691e-01    0.969986144 2009
+898   98  19.57805203 9.128630e-01    0.979998223 2009
+899   99  24.38536895 9.468510e-01    0.989990697 2009
+900  100 128.70877998 1.000000e+00    1.000000000 2009
+901    1   3.10842450 4.521224e-03    0.009999558 2010
+902    2   3.20868862 9.252645e-03    0.019997533 2010
+903    3   3.28406588 1.411278e-02    0.029998196 2010
+904    4   3.34945792 1.907815e-02    0.039999545 2010
+905    5   3.40494137 2.413186e-02    0.049998595 2010
+906    6   3.45823120 2.926828e-02    0.059999019 2010
+907    7   3.50887467 3.448027e-02    0.069996188 2010
+908    8   3.55718579 3.976942e-02    0.079999866 2010
+909    9   3.60383737 4.512482e-02    0.089994557 2010
+910   10   3.64823022 5.055077e-02    0.099994742 2010
+911   11   3.69023476 5.604269e-02    0.109996061 2010
+912   12   3.73336501 6.159616e-02    0.119993738 2010
+913   13   3.77407965 6.721599e-02    0.129996789 2010
+914   14   3.81545796 7.289324e-02    0.139993809 2010
+915   15   3.85813307 7.863589e-02    0.149996353 2010
+916   16   3.89946406 8.444017e-02    0.159996030 2010
+917   17   3.93859104 9.030573e-02    0.169998126 2010
+918   18   3.97686065 9.622564e-02    0.179993025 2010
+919   19   4.01718325 1.022086e-01    0.189995091 2010
+920   20   4.05571056 1.082486e-01    0.199994410 2010
+921   21   4.09545076 1.143488e-01    0.209998238 2010
+922   22   4.13432455 1.205064e-01    0.219997826 2010
+923   23   4.17421188 1.267190e-01    0.229991859 2010
+924   24   4.21356293 1.329980e-01    0.239997270 2010
+925   25   4.25549809 1.393342e-01    0.249997514 2010
+926   26   4.29876805 1.457365e-01    0.259999580 2010
+927   27   4.33858691 1.521946e-01    0.269991971 2010
+928   28   4.37889046 1.587184e-01    0.279993560 2010
+929   29   4.41787018 1.653045e-01    0.289999956 2010
+930   30   4.46021449 1.719406e-01    0.299992496 2010
+931   31   4.50294967 1.786495e-01    0.309994891 2010
+932   32   4.54795486 1.854203e-01    0.319992089 2010
+933   33   4.59229566 1.922602e-01    0.329993737 2010
+934   34   4.63832342 1.991662e-01    0.339992728 2010
+935   35   4.68419941 2.061402e-01    0.349990972 2010
+936   36   4.72819926 2.131828e-01    0.359991336 2010
+937   37   4.77191461 2.202940e-01    0.369996029 2010
+938   38   4.81978983 2.274668e-01    0.379989585 2010
+939   39   4.86819814 2.347161e-01    0.389990367 2010
+940   40   4.91573819 2.420432e-01    0.399999361 2010
+941   41   4.96468032 2.494360e-01    0.409997426 2010
+942   42   5.01558742 2.569015e-01    0.419995998 2010
+943   43   5.06662069 2.644387e-01    0.429986956 2010
+944   44   5.11842356 2.720612e-01    0.439990037 2010
+945   45   5.17196863 2.797683e-01    0.449999150 2010
+946   46   5.22398122 2.875459e-01    0.459999246 2010
+947   47   5.27903170 2.953998e-01    0.469994145 2010
+948   48   5.33695321 3.033416e-01    0.479992539 2010
+949   49   5.39255300 3.113636e-01    0.489986065 2010
+950   50   5.45080360 3.194861e-01    0.499996999 2010
+951   51   5.50656241 3.276840e-01    0.509996497 2010
+952   52   5.56757555 3.359697e-01    0.519996533 2010
+953   53   5.62925607 3.443426e-01    0.529991761 2010
+954   54   5.69103725 3.528152e-01    0.539994902 2010
+955   55   5.75719069 3.613871e-01    0.549999804 2010
+956   56   5.82186193 3.700407e-01    0.559988194 2010
+957   57   5.88842840 3.788066e-01    0.569994501 2010
+958   58   5.95941182 3.876703e-01    0.579992207 2010
+959   59   6.03268913 3.966447e-01    0.589994333 2010
+960   60   6.10690958 4.057202e-01    0.599986903 2010
+961   61   6.17886166 4.149236e-01    0.609998584 2010
+962   62   6.25420238 4.242137e-01    0.619985063 2010
+963   63   6.33995135 4.336502e-01    0.629998118 2010
+964   64   6.42261267 4.431883e-01    0.639988031 2010
+965   65   6.51387924 4.528661e-01    0.649985887 2010
+966   66   6.59413333 4.626761e-01    0.659988012 2010
+967   67   6.68719436 4.726159e-01    0.669987451 2010
+968   68   6.78894084 4.827026e-01    0.679990293 2010
+969   69   6.88936751 4.929426e-01    0.689993106 2010
+970   70   6.99803529 5.033379e-01    0.699997322 2010
+971   71   7.10874667 5.138790e-01    0.709987772 2010
+972   72   7.21457626 5.246056e-01    0.719995601 2010
+973   73   7.33107550 5.354879e-01    0.729992651 2010
+974   74   7.45625577 5.465349e-01    0.739981548 2010
+975   75   7.58676813 5.577948e-01    0.749985077 2010
+976   76   7.72570912 5.692621e-01    0.759994280 2010
+977   77   7.87224098 5.809255e-01    0.769990613 2010
+978   78   8.02088196 5.928199e-01    0.779997695 2010
+979   79   8.16783553 6.049244e-01    0.789991401 2010
+980   80   8.33153091 6.172740e-01    0.799996333 2010
+981   81   8.51319900 6.298586e-01    0.809985947 2010
+982   82   8.69754501 6.427462e-01    0.819993657 2010
+983   83   8.89316526 6.558889e-01    0.829981569 2010
+984   84   9.11805354 6.693601e-01    0.839981874 2010
+985   85   9.35906324 6.831812e-01    0.849982596 2010
+986   86   9.61845557 6.973964e-01    0.859995949 2010
+987   87   9.91140661 7.119861e-01    0.869986847 2010
+988   88  10.24270716 7.270481e-01    0.879981001 2010
+989   89  10.58284037 7.426393e-01    0.889985575 2010
+990   90  10.93878271 7.587616e-01    0.899994330 2010
+991   91  11.38712142 7.754582e-01    0.909993051 2010
+992   92  11.91213725 7.928598e-01    0.919981531 2010
+993   93  12.46471984 8.111045e-01    0.929983686 2010
+994   94  13.09636084 8.302280e-01    0.939983931 2010
+995   95  13.97556522 8.504577e-01    0.949979935 2010
+996   96  14.99038020 8.721047e-01    0.959985495 2010
+997   97  16.48251543 8.956013e-01    0.969979230 2010
+998   98  18.74277619 9.217733e-01    0.979997719 2010
+999   99  23.10689578 9.526210e-01    0.989974106 2010
+1000 100 171.48121787 1.000000e+00    1.000000000 2010</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(lorenz_data, <span class="fu">aes</span>(<span class="at">x =</span> cum_population, <span class="at">y =</span> cum_welfare, <span class="at">color =</span> <span class="fu">as.factor</span>(year))) <span class="sc">+</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(  <span class="at">x =</span> <span class="st">"cum_population"</span>,</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"cum_welfare"</span>,</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"year"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="WorldBankTestFinal_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="gini-coefficient" class="level3">
+<h3 class="anchored" data-anchor-id="gini-coefficient"><strong>6. Gini coefficient</strong></h3>
+<p>The Gini coefficient is the ratio of the area that lies between the line of equality and the Lorenz curve.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>gini_calculate <span class="ot">&lt;-</span> <span class="cf">function</span>(income, weight) {</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># as before sort by income, get cummulative population and income and normalize</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    sorted_indices <span class="ot">&lt;-</span> <span class="fu">order</span>(income)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    sorted_income <span class="ot">&lt;-</span> income[sorted_indices]</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    sorted_weight <span class="ot">&lt;-</span> weight[sorted_indices]</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    cum_weight <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(sorted_weight)</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    cum_income <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(sorted_weight <span class="sc">*</span> sorted_income)</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    total_weight <span class="ot">&lt;-</span> <span class="fu">sum</span>(sorted_weight)</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    total_income <span class="ot">&lt;-</span> <span class="fu">sum</span>(sorted_weight <span class="sc">*</span> sorted_income)</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>    cum_weight <span class="ot">&lt;-</span> cum_weight <span class="sc">/</span> total_weight</span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>    cum_income <span class="ot">&lt;-</span> cum_income <span class="sc">/</span> total_income</span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Let us explain this equation:</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># diff(cum_weight) represents difference between successive elements in cum_weight</span></span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">#cum_income[-length(cum_income)] + cum_income[-1]) : adds the first income level with the second, and so on ...</span></span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">#  sum((cum_income[-length(cum_income)] + cum_income[-1]) * diff(cum_weight)) this approx gets area under lorrentz curve * 2</span></span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># gini is 0.5 (area under line of equality) - area under lorrenz curve divided by 0.5 = (0.5 - sum* 2 )/ 0.5) = 1 - sum</span></span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>      gini <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>((cum_income[<span class="sc">-</span><span class="fu">length</span>(cum_income)] <span class="sc">+</span> cum_income[<span class="sc">-</span><span class="dv">1</span>]) <span class="sc">*</span> <span class="fu">diff</span>(cum_weight))</span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">data.frame</span>(gini))</span>
+<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a><span class="co"># to get it for each year, we get it for the first year then loop over the rest and bind them</span></span>
+<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a>gini_coefficients <span class="ot">&lt;-</span> <span class="fu">gini_calculate</span>(l_svy[[<span class="dv">1</span>]]<span class="sc">$</span>income, l_svy[[<span class="dv">1</span>]]<span class="sc">$</span>weight)</span>
+<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-27"><a href="#cb40-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(l_svy)) { <span class="co"># for each year</span></span>
+<span id="cb40-28"><a href="#cb40-28" aria-hidden="true" tabindex="-1"></a>  gini_coefficients_i <span class="ot">&lt;-</span> <span class="fu">gini_calculate</span>(l_svy[[i]]<span class="sc">$</span>income, l_svy[[i]]<span class="sc">$</span>weight)</span>
+<span id="cb40-29"><a href="#cb40-29" aria-hidden="true" tabindex="-1"></a>  gini_coefficients <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(gini_coefficients, gini_coefficients_i)</span>
+<span id="cb40-30"><a href="#cb40-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb40-31"><a href="#cb40-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-32"><a href="#cb40-32" aria-hidden="true" tabindex="-1"></a>gini_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb40-33"><a href="#cb40-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="dv">2001</span><span class="sc">:</span><span class="dv">2010</span>, </span>
+<span id="cb40-34"><a href="#cb40-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">gini =</span> gini_coefficients</span>
+<span id="cb40-35"><a href="#cb40-35" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb40-36"><a href="#cb40-36" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(gini_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   year      gini
+1  2001 0.6829707
+2  2002 0.6421103
+3  2003 0.5983021
+4  2004 0.5448121
+5  2005 0.4890014
+6  2006 0.4334923
+7  2007 0.3874237
+8  2008 0.3431090
+9  2009 0.3058074
+10 2010 0.2708267</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(gini_data, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> gini)) <span class="sc">+</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(  <span class="at">x =</span> <span class="st">"year"</span>,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"gini"</span>) <span class="sc">+</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="WorldBankTestFinal_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,386 @@
+---
+title: "WorlddBankTest"
+format: html
+editor: visual
+---
+
+```{r}
+# Loading all packages necessary 
+library(tidyverse)
+library(palmerpenguins)
+library(dplyr)
+library(Hmisc)
+library(dplyr)
+library(purrr)
+library(readr)
+library(ggplot2)
+
+```
+
+```{r}
+# I am reading all data locally stored in data folder
+wdi <-
+  readr::read_rds( "data/wdi_in1.Rds")
+
+
+```
+
+### **1. Summary statistics of GDP per capita by region**
+
+We need to look at region at each year ('date'), then get the weighted mean gdp by multiplying each gdp/per capita by the population, sum over all the countries in our region&year, and divide by the total population. The standard deviation also has to be adjusted to account for the population, the computation is slightly more complex, so we use the wtd.stats subpackage from https://rdrr.io/cran/Hmisc/man/wtd.stats.html
+
+We make sure to add na.rm = TRUE to ignore NAs
+
+```{r}
+summary_wdi <- wdi %>%
+  group_by(region, date) %>%
+  summarise(
+    N = n(),
+    Mean = wtd.mean(gdp, weights = pop,  na.rm = TRUE) ,
+    SD =  sqrt(wtd.var(gdp, weights = pop,  na.rm = TRUE)),
+    Min = min(gdp, na.rm = TRUE),
+    Max = max(gdp, na.rm = TRUE),
+  )  %>%
+  rename(year = date) # rename date to year
+# change year to character from double
+summary_wdi <- summary_wdi %>%   mutate(year = as.character(year))
+summary_wdi <- summary_wdi %>% ungroup()
+print(summary_wdi)
+
+
+```
+
+```{r}
+waldo::compare(summary_wdi,readr::read_rds( "data/wdi_summ_out.Rds"))
+```
+
+It seems like there is a very minor difference in values for some of the estimates, this could be to me using a different package or way to compute the weighted estimates (numerical precision issues), but it should not really affect us.
+
+### **2. Aggregate stats**
+
+We want to get the mean, standard deviation, minimum, maximum, and median for `lifeex`, `gdp`, and `pov_intl` variables by `region` and `date.` We also want it to be in a long format. To do this, for each type of estimate (e.g. mean), I will create a dataframe that does the calculation, then I will combine the dfs for each estimate into one dataframe which will be the final output.
+
+```{r}
+agg_wdi_mean <- wdi %>%
+  group_by(region, date) %>%
+  summarise(
+    estimate = 'mean',
+    lifeex = wtd.mean(lifeex, weights = pop,  na.rm = TRUE) ,
+    gdp = wtd.mean(gdp, weights = pop,  na.rm = TRUE),
+    pov_intl  =wtd.mean(pov_intl, weights = pop,  na.rm = TRUE),
+    pop = sum(pop)
+  ) 
+
+agg_wdi_sd <- wdi %>%
+  group_by(region, date) %>%
+  summarise(
+    estimate = 'sd',
+    lifeex = sqrt(wtd.var(lifeex, weights = pop,  na.rm = TRUE)) ,
+    gdp = sqrt(wtd.var(gdp, weights = pop,  na.rm = TRUE)),
+    pov_intl  = sqrt(wtd.var(pov_intl, weights = pop,  na.rm = TRUE)),
+    pop = sum(pop)
+
+  ) 
+
+agg_wdi_min<- wdi %>%
+  group_by(region, date) %>%
+  summarise(
+    estimate = 'min',
+    lifeex = min(lifeex, na.rm = TRUE) ,
+    gdp = min(gdp, na.rm = TRUE),
+    pov_intl  = min(pov_intl, na.rm = TRUE),
+    pop = sum(pop)
+
+  ) 
+
+agg_wdi_max <- wdi %>%
+  group_by(region, date) %>%
+  summarise(
+    estimate = 'max',
+    lifeex = max(lifeex, na.rm = TRUE) ,
+    gdp = max(gdp, na.rm = TRUE),
+    pov_intl  = max(pov_intl, na.rm = TRUE),
+    pop = sum(pop)
+
+)
+
+# For weighted median, we also use the wtd subpackage
+# the median is essentially the 50% quantile which we leverage here
+agg_wdi_median <- wdi %>%
+  group_by(region, date) %>%
+  summarise(
+    estimate = 'median',
+    lifeex = wtd.quantile(lifeex, weights = pop, probs =0.5, na.rm = TRUE) ,
+    gdp = wtd.quantile(gdp, weights = pop, probs =0.5, na.rm = TRUE),
+    pov_intl  = wtd.quantile(pov_intl, weights = pop, probs =0.5, na.rm = TRUE),
+    pop = sum(pop)
+  ) 
+
+agg_wdi <- bind_rows(agg_wdi_mean, agg_wdi_sd, agg_wdi_min, agg_wdi_max, agg_wdi_median)
+# reorder columns to match output
+agg_wdi <- agg_wdi %>%
+  select(estimate, everything())
+
+agg_wdi <- agg_wdi %>%
+  select(estimate, region, date, pop, everything())
+
+print(agg_wdi)
+
+
+
+
+```
+
+```{r}
+waldo::compare(agg_wdi,readr::read_rds( "data/wdi_agg_out.Rds"))
+
+```
+
+### **3. Find outliers**
+
+To find the outliers of `lifeex`, `gpd`, and `gini` by year above and below 2.5 standard deviations from the mean, I first compute the weighted mean for each of the averages and the weighted sd by year. I store these variables in the following two dataframes agg_wdi_sd and agg_wdi_mean:
+
+```{r}
+agg_wdi_sd <- wdi %>%
+  group_by(date) %>%
+  summarise(
+    estimate = 'sd',
+    lifeex = sqrt(wtd.var(lifeex, weights = pop,  na.rm = TRUE)) ,
+    gdp = sqrt(wtd.var(gdp, weights = pop,  na.rm = TRUE)),
+    gini  = sqrt(wtd.var(gini, weights = pop,  na.rm = TRUE)),
+  ) 
+
+agg_wdi_mean <- wdi %>%
+  group_by( date) %>%
+  summarise(
+    estimate = 'mean',
+    lifeex = wtd.mean(lifeex, weights = pop,  na.rm = TRUE) ,
+    gdp = wtd.mean(gdp, weights = pop,  na.rm = TRUE),
+    gini  =wtd.mean(gini, weights = pop,  na.rm = TRUE),
+  ) 
+
+```
+
+An outlier in terms of the three variables, will have a value that is either above or below the mean +/- 2.5 sd. This is the same as saying \|value-mean\| \> 2.5 sd (to catch both above or below). We leverage this equation to find the outliers. We use a search over wdi to find the outliers.
+
+The outliers df below will only keep the countries at the year they were an outlier in any of the three variables (with a binary indicator if an outlier). If the country does not have a value (as happens with gini), we keep it as NA.
+
+```{r}
+outliers <- wdi %>%
+  rowwise() %>% # rowwise itterates over each element of wdi row by row
+  mutate(
+    lifeex_outlier = abs(lifeex - agg_wdi_mean[agg_wdi_mean$date == date, 'lifeex']) > 2.5 * agg_wdi_sd[agg_wdi_sd$date == date, 'lifeex'],
+    gdp_outlier = abs(gdp - agg_wdi_mean[agg_wdi_mean$date == date, 'gdp']) > 2.5 * agg_wdi_sd[agg_wdi_sd$date == date, 'gdp'],
+    gini_outlier = abs(gini - agg_wdi_mean[agg_wdi_mean$date == date, 'gini']) > 2.5 * agg_wdi_sd[agg_wdi_sd$date == date, 'gini']
+  ) %>%
+  filter(lifeex_outlier | gdp_outlier | gini_outlier) %>% # only keep the outliers
+  select(region, iso3c, date, country, lifeex_outlier, gdp_outlier, gini_outlier, lifeex, gdp, gini) # which columns to keep
+
+
+print(outliers)
+
+```
+
+```{r}
+# we first explictly compute the lower end and upper end of the CI by date
+agg_wdi_ci <- wdi %>%
+  group_by(date) %>%
+  summarise(
+    mean_lifeex = wtd.mean(lifeex, weights = pop,  na.rm = TRUE),
+    lower_ci = mean_lifeex - 2.5 * sqrt(wtd.var(lifeex, weights = pop,  na.rm = TRUE)),
+    upper_ci = mean_lifeex + 2.5 * sqrt(wtd.var(lifeex, weights = pop,  na.rm = TRUE)),
+  ) 
+
+ggplot() +
+  geom_point(data = wdi, aes(x = date, y = lifeex, color = region)) + # color by region
+  geom_line(data = agg_wdi_ci, aes(x = date, y = mean_lifeex, group = 1), color = "blue") +
+  geom_ribbon(data = agg_wdi_ci, aes(x = date, ymin = lower_ci, ymax = upper_ci), alpha = 0.2, fill = "grey") +
+  labs(  x = "date",
+       y = "mean_lifeex") +
+  theme_minimal() # to get white background 
+
+```
+
+**4. Poverty measures**
+
+```{r}
+# read the data locally 
+l_svy <-
+    readr::read_rds( "data/svy_sim_in1.Rds")
+
+```
+
+We want to estimate the Foster-Greer-Thorbecke indices (FGT) using
+global poverty lines of \$2.15, \$3.65, and \$6.85 in 2017 PPP prices.
+
+Data: let us first understand the data we're given l_svy, which represents a household survey formatted as a data list: l_svy\$YEAR is a dataframe of responses with data about income, sampling weight and area of correspondent. The years are from 2001 to 2010 (years)
+
+To calculate our indices we need to compute the following variables:
+
+headcount (FGT0): This represents the proportion of the population whose income is below the poverty line (for each year and poverty line)
+
+povgap (FGT1): average gap for the population between income and the poverty line divided by the poverty line (poverty line - income), if the income is above the poverty line, we say the gap is 0. We need to weigh this povgap by the weights in the survey.
+
+povseverity (FGT2): essentially we square the gap from above and average over the population
+
+```{r}
+
+# given data for year and income line, we calculate our three indeces
+calculate_fgt_indices <- function(income, pov_line, weights) {
+  # for each person we compute income gap
+  gaps <- ifelse(income < pov_line, (pov_line - income) / pov_line, 0)
+  squared_gaps <- gaps^2
+  headcount <- sum(weights[income < pov_line]) / sum(weights)
+  povgap <- sum(gaps * weights) / sum(weights)
+  povseverity <- sum(squared_gaps * weights) / sum(weights)
+  
+  return(list(headcount = headcount, povgap = povgap, povseverity = povseverity))
+}
+
+# from our input
+poverty_lines <- c(2.15, 3.65, 6.85)
+
+fgt_measures <- vector("list", length = length(l_svy) * length(poverty_lines))
+
+idx <- 1
+for(i in 1:length(l_svy)) { # for each year
+  for(pov_line in poverty_lines) { # for each pov_line
+    # get indices
+    fgt_values <- calculate_fgt_indices(l_svy[[i]]$income, pov_line, l_svy[[i]]$weight)
+    # format them in table
+    fgt_measures[[idx]] <- tibble(
+      year = 2000 + i,
+      pov_line = pov_line,
+      headcount = fgt_values$headcount,
+      povgap = fgt_values$povgap,
+      povseverity = fgt_values$povseverity
+    )
+    idx <- idx + 1
+  }
+}
+fgt_results <- bind_rows(fgt_measures)
+print(fgt_results)
+
+```
+
+```{r}
+fgt_results$pov_line <- as.factor(fgt_results$pov_line)
+
+ggplot(fgt_results, aes(x = year, y = headcount, group = pov_line, color = pov_line)) +
+  geom_line() +
+  geom_point() +
+  scale_color_manual(values = c("2.15" = "red", "3.65" = "green", "6.85" = "blue")) +
+  labs(  x = "year",
+       y = "headcount",
+       color = "headcount") +
+  theme_minimal()
+
+
+```
+
+**5. Lorenz curve**
+
+The Lorentz curve is a representation of the distribution of income in the population: for the x% people in the population with the lowest income, how much of the total income do they posses.
+
+To do this we need to sort the population by income, the get the cumulative income and cumulative population. We then need to normalize by the total income and the total population for the curve.
+
+```{r}
+# The R function we want
+lorenz_curve <- function(data, year) {
+    # sort  data by income
+    data <- data[order(data$income), ]
+    # get the cummulative welfare and population
+    data$cum_welfare <- cumsum(data$income * data$weight)
+    data$cum_population <- cumsum(data$weight)
+    # normalize by the total population and welfare
+    # the total population is equivalently the max of the cum_population. 
+    data$cum_welfare <- data$cum_welfare / max(data$cum_welfare)
+    data$cum_population <- data$cum_population / max(data$cum_population)
+    data$welfare = data$income
+    # cut divides the data into intervals [0,100] 
+    data$bin <- cut(data$cum_population, breaks = seq(0, 1, length.out = 101), labels = FALSE, include.lowest = TRUE)
+    aggregate_data <- aggregate(cbind(welfare,cum_welfare, cum_population) ~ bin, data = data, max)
+    # add year 
+    aggregate_data$year <- year
+    return(aggregate_data)
+}
+
+# do it for al the years
+lorenz_data <- lorenz_curve(l_svy[[1]], 2001)
+
+for(i in 2:length(l_svy)) { # for each year
+  lorenz_data_i <- lorenz_curve(l_svy[[i]], 2000 + i)
+  lorenz_data <- bind_rows(lorenz_data, lorenz_data_i)
+}
+
+print(lorenz_data)
+
+
+
+```
+
+```{r}
+
+ggplot(lorenz_data, aes(x = cum_population, y = cum_welfare, color = as.factor(year))) +
+  geom_line() + 
+  labs(  x = "cum_population",
+       y = "cum_welfare",
+       color = "year") 
+
+```
+
+### **6. Gini coefficient**
+
+The Gini coefficient is the ratio of the area that lies between the line of equality and the Lorenz curve.
+
+```{r}
+gini_calculate <- function(income, weight) {
+    # as before sort by income, get cummulative population and income and normalize
+
+    sorted_indices <- order(income)
+    sorted_income <- income[sorted_indices]
+    sorted_weight <- weight[sorted_indices]
+    cum_weight <- cumsum(sorted_weight)
+    cum_income <- cumsum(sorted_weight * sorted_income)
+    
+    total_weight <- sum(sorted_weight)
+    total_income <- sum(sorted_weight * sorted_income)
+    
+    cum_weight <- cum_weight / total_weight
+    cum_income <- cum_income / total_income
+    # Let us explain this equation:
+    # diff(cum_weight) represents difference between successive elements in cum_weight
+    #cum_income[-length(cum_income)] + cum_income[-1]) : adds the first income level with the second, and so on ...
+    #  sum((cum_income[-length(cum_income)] + cum_income[-1]) * diff(cum_weight)) this approx gets area under lorrentz curve * 2
+    # gini is 0.5 (area under line of equality) - area under lorrenz curve divided by 0.5 = (0.5 - sum* 2 )/ 0.5) = 1 - sum
+      gini <- 1 - sum((cum_income[-length(cum_income)] + cum_income[-1]) * diff(cum_weight))
+    return(data.frame(gini))
+}
+
+# to get it for each year, we get it for the first year then loop over the rest and bind them
+gini_coefficients <- gini_calculate(l_svy[[1]]$income, l_svy[[1]]$weight)
+
+for(i in 2:length(l_svy)) { # for each year
+  gini_coefficients_i <- gini_calculate(l_svy[[i]]$income, l_svy[[i]]$weight)
+  gini_coefficients <- bind_rows(gini_coefficients, gini_coefficients_i)
+}
+
+gini_data <- data.frame(
+  year = 2001:2010, 
+  gini = gini_coefficients
+)
+print(gini_data)
+
+
+```
+
+```{r}
+ggplot(gini_data, aes(x = year, y = gini)) +
+  geom_line() +
+  geom_point() +
+  labs(  x = "year",
+       y = "gini") +
+  theme_minimal()
+
+
+```
